@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         mono: ['JetBrains Mono', 'Space Mono', 'monospace'],
+        codex: ['VT323', 'monospace'],
         pixel: ['Space Mono', 'monospace'],
       },
       colors: {
