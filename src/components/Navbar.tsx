@@ -95,7 +95,7 @@ export const Navbar = () => {
         {/* Right Section */}
         <div className="flex-1 flex justify-end items-center gap-3">
           <a
-            href="/Aswin_Chettri_CV.pdf"
+            href="/Chettri_Aswin_2026.pdf"
             download
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium text-base text-muted-foreground hover:text-foreground hover:bg-secondary/80 border border-transparent hover:border-border transition-smooth" // Increased font size
             aria-label="Download Resume"
