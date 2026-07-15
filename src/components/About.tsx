@@ -24,16 +24,6 @@ export const About = () => {
     },
   ];
 
-  const leadership = [
-    {
-      role: "Vice President - Computer Application Student Society (CASS), SMIT - 2025",
-      description: "Led 10 members CASS to execute 8+ major technical & non-technical events for Computer Applicaiton Department,SMIT consisting of 250+ students",
-    },
-    {
-      role: "School Vice-Captain - Greendale Senior Secondary School - 2021",
-      description: "Responsbile for conducing assembly and other student leadership related work",
-    },
-  ];
 
   const interests = [
     "Football",
@@ -74,19 +64,22 @@ export const About = () => {
             className="glass-card p-8"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500">
-                <Trophy className="w-6 h-6 text-white" />
+              <div className="p-3 glass-tag">
+                <Trophy className="w-5 h-5 text-foreground/80" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-bold">Get to Know me</h3>
+              <h3 className="text-2xl font-semibold">Get to Know me</h3>
             </div>
-            <p className="text-muted-foreground leading-relaxed">
-              Hailing from Gangtok, Sikkim, I have always been captivated by technology and its potential to shape the 
-              future. This passion has driven my academic journey through both school and college, leading me to pursue 
-              a Master's degree in Computer Applications. I am an aspiring Software Developer with hands-on experience in 
-              full-stack web development and AI applications, and I am currently channeling my skills into developing 'ValueScout,'
-               an innovative AI-driven e-commerce platform. I am a lifelong learner, constantly exploring futuristic technologies 
-               and eager to make a meaningful impact by building valuable and innovative solutions that solve real-world problems
-            </p>
+            <div className="text-muted-foreground leading-relaxed space-y-4">
+              <p>
+                Technology has had my attention since long before I knew what a semicolon was for, back when Python was just a snake to me. I'm an explorer of new technologies and an avid learner, deep into what's happening in the world of artificial intelligence and machine learning. I'm also very interested in UI/UX.
+              </p>
+              <p>
+                My current tech stack that I'm hands-on with includes React, TypeScript, Python, JavaScript, MongoDB, SQL, and a few others. I'm always building something, whether it's a personal project or an experiment, and always learning along the way.
+              </p>
+              <p>
+                Besides all the tech-related stuff, I'm a huge football fan; Glory Glory Man United!!! I'm also into Star Wars and Hip Hop, and I occasionally write about it all.
+              </p>
+            </div>
           </motion.div>
 
           {/* Education */}
@@ -98,14 +91,14 @@ export const About = () => {
             className="glass-card p-8"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-teal-500">
-                <GraduationCap className="w-6 h-6 text-white" />
+              <div className="p-3 glass-tag">
+                <GraduationCap className="w-5 h-5 text-foreground/80" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-bold">Education</h3>
+              <h3 className="text-2xl font-semibold">Education</h3>
             </div>
             <div className="space-y-4">
               {education.map((edu, index) => (
-                <div key={index} className="p-6 rounded-xl bg-secondary">
+                <div key={index} className="p-6 rounded-2xl glass">
                   <h4 className="font-semibold text-lg">{edu.degree}</h4>
                   <p className="text-muted-foreground text-sm">{edu.institution}</p>
                   <p className="text-xs text-muted-foreground mt-1">{edu.period}</p>
@@ -123,13 +116,13 @@ export const About = () => {
             className="glass-card p-8"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500">
-                <Award className="w-6 h-6 text-white" />
+              <div className="p-3 glass-tag">
+                <Award className="w-5 h-5 text-foreground/80" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-bold">Certifications</h3>
+              <h3 className="text-2xl font-semibold">Certifications</h3>
             </div>
             {certifications.map((cert, index) => (
-              <div key={index} className="p-6 rounded-xl bg-secondary">
+              <div key={index} className="p-6 rounded-2xl glass">
                 <h4 className="font-semibold text-lg mb-2">{cert.name}</h4>
                 <p className="text-muted-foreground text-sm mb-1">
                   {cert.issuer}
@@ -141,32 +134,6 @@ export const About = () => {
             ))}
           </motion.div>
 
-          {/* Leadership */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="glass-card p-8"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500">
-                <UserCheck className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold">Leadership</h3>
-            </div>
-            <div className="space-y-6">
-              {leadership.map((lead, index) => (
-                <div key={index} className="p-6 rounded-xl bg-secondary">
-                  <h4 className="font-semibold text-lg mb-2">{lead.role}</h4>
-                  <p className="text-muted-foreground text-sm mb-1">
-                    {lead.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
           {/* Areas of Interest */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -176,17 +143,17 @@ export const About = () => {
             className="glass-card p-8"
           >
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-pink-500 to-red-500">
-                <Heart className="w-6 h-6 text-white" />
+              <div className="p-3 glass-tag">
+                <Heart className="w-5 h-5 text-foreground/80" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl font-bold">Areas of Interest & Hobbies</h3>
+              <h3 className="text-2xl font-semibold">Areas of Interest & Hobbies</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {interests.map((interest) => (
                 <motion.span
                   key={interest}
                   whileHover={{ scale: 1.05 }}
-                  className="px-3 py-1 rounded-lg bg-secondary text-sm font-medium"
+                  className="px-4 py-2 glass-tag text-sm font-medium text-foreground/80"
                 >
                   {interest}
                 </motion.span>

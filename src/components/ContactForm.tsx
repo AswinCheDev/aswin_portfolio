@@ -91,9 +91,9 @@ export function ContactForm() {
             name="fullName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Full name</FormLabel>
+                <FormLabel className="text-foreground/80 ml-1">Full name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Your full name" {...field} />
+                  <Input placeholder="Your full name" className="bg-secondary/30 border-border/50 focus-visible:ring-primary/50 rounded-xl" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,9 +104,9 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email address</FormLabel>
+                <FormLabel className="text-foreground/80 ml-1">Email address</FormLabel>
                 <FormControl>
-                  <Input placeholder="example@email.com" {...field} />
+                  <Input placeholder="example@email.com" className="bg-secondary/30 border-border/50 focus-visible:ring-primary/50 rounded-xl" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -117,9 +117,9 @@ export function ContactForm() {
             name="subject"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Subject</FormLabel>
+                <FormLabel className="text-foreground/80 ml-1">Subject</FormLabel>
                 <FormControl>
-                  <Input placeholder="Subject of your message" {...field} />
+                  <Input placeholder="Subject of your message" className="bg-secondary/30 border-border/50 focus-visible:ring-primary/50 rounded-xl" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -130,11 +130,11 @@ export function ContactForm() {
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message</FormLabel>
+                <FormLabel className="text-foreground/80 ml-1">Message</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Your message"
-                    className="resize-none"
+                    className="resize-none bg-secondary/30 border-border/50 focus-visible:ring-primary/50 rounded-xl min-h-[100px]"
                     {...field}
                   />
                 </FormControl>
@@ -142,13 +142,13 @@ export function ContactForm() {
               </FormItem>
             )}
           />
-          <DialogFooter>
+          <DialogFooter className="pt-4">
             <DialogClose asChild>
-                <Button type="button" variant="secondary">
+                <Button type="button" variant="ghost" className="rounded-xl hover:bg-secondary/50">
                 Cancel
                 </Button>
             </DialogClose>
-            <Button type="submit">Send Message</Button>
+            <Button type="submit" className="glass rounded-xl hover:bg-secondary/20 border-border">Send Message</Button>
           </DialogFooter>
         </form>
       </Form>

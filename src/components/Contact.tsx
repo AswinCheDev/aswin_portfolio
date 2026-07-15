@@ -42,8 +42,11 @@ export const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="min-h-screen flex items-center px-6 py-20">
-      <div className="max-w-5xl mx-auto w-full">
+    <section 
+      id="contact" 
+      className="relative min-h-screen flex items-center px-6 py-20"
+    >
+      <div className="max-w-5xl mx-auto w-full relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -59,88 +62,71 @@ export const Contact = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Contact info cards */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4"
-          >
-            {contactInfo.map((item) => (
-              <motion.div
-                key={item.label}
-                whileHover={{ scale: 1.02, x: 4 }}
-                className="glass-card p-6 hover-lift transition-smooth"
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Contact info and social links */}
+          <div className="space-y-6 md:space-y-8">
+            {contactInfo.map((info, index) => (
+              <motion.a
+                key={info.label}
+                href={info.href || "#"}
+                target={info.href?.startsWith("http") ? "_blank" : undefined}
+                rel={info.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="flex items-center gap-4 md:gap-6 p-4 md:p-6 glass-card glass-card-hover group"
               >
-                {item.href ? (
-                  <a
-                    href={item.href}
-                    className="flex items-center gap-4 group"
-                  >
-                    <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-accent">
-                      <item.icon className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">{item.label}</p>
-                      <p className="font-medium group-hover:text-primary transition-smooth">
-                        {item.value}
-                      </p>
-                    </div>
-                  </a>
-                ) : (
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-gradient-to-br from-primary to-accent">
-                      <item.icon className="w-5 h-5 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">{item.label}</p>
-                      <p className="font-medium">{item.value}</p>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
+                <div className="p-3 md:p-4 glass-tag">
+                  <info.icon className="w-5 h-5 md:w-6 md:h-6 text-foreground/80" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h4 className="text-lg md:text-xl font-semibold mb-1 text-foreground/90">{info.label}</h4>
+                  <p className="text-sm md:text-base text-muted-foreground group-hover:text-primary transition-colors">
+                    {info.value}
+                  </p>
+                </div>
+              </motion.a>
             ))}
-          </motion.div>
 
-          {/* Social links and CTA */}
+            {/* Social Links Mini-Grid */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="flex gap-4 pt-4"
+            >
+              {socialLinks.map((social, idx) => (
+                <motion.a
+                  key={idx}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-4 glass-card glass-card-hover text-foreground/80 hover:text-foreground"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                </motion.a>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Side: CTA and Dialog */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="glass-card p-8 flex flex-col justify-between"
+            className="glass-card p-8 flex flex-col justify-center"
           >
             <div>
               <h3 className="text-2xl font-bold mb-4">Connect with me</h3>
-              <p className="text-muted-foreground mb-6">
-                Follow my journey and stay updated with my latest projects and
-                achievements.
+              <p className="text-muted-foreground mb-8">
+                Follow my journey, stay updated with my latest projects, or drop me a message if you want to collaborate!
               </p>
-
-              <div className="space-y-3 mb-8">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.02, x: 4 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-3 p-4 rounded-xl bg-secondary hover:bg-secondary/80 transition-smooth group"
-                  >
-                    <div
-                      className={`p-2 rounded-lg bg-gradient-to-br ${social.color}`}
-                    >
-                      <social.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="font-medium group-hover:text-primary transition-smooth">
-                      {social.label}
-                    </span>
-                  </motion.a>
-                ))}
-              </div>
             </div>
 
             <Dialog>
@@ -148,16 +134,15 @@ export const Contact = () => {
                 <motion.div
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold text-center hover-glow transition-smooth cursor-pointer"
+                  className="w-full py-4 glass rounded-xl font-medium text-center text-foreground/90 border border-border hover:bg-secondary/20 transition-colors cursor-pointer"
                 >
                   Send a Message
                 </motion.div>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent macOSClose={true} className="sm:max-w-[425px]">
                 <ContactForm />
               </DialogContent>
             </Dialog>
-
           </motion.div>
         </div>
 

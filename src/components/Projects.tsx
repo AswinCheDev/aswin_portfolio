@@ -34,6 +34,8 @@ export const Projects = () => {
         "VS Code", "Postman", "AWS", "Heroku"
     ],
       period: "Aug 2025 - Present",
+      status: "In Progress",
+      keyFeatures: ["Real-time Price Comparison", "AI Style Builder", "Price Alerts"],
       image: "/Images/ProjectSection/ValueScout/vs100.png",
       details: {
         introduction: "This project aims to develop a single, easy-to-use web platform where you can find and compare products from almost any online store in India. It works by searching through many different online shops at the same time, showing you all your choices and their current prices on one simple screen. The problem it solves is the frustration of visiting multiple websites to compare prices and products, which wastes time and makes it hard to be sure you've made the best choice. The platform's proposed solution is a single search engine for the Indian e-commerce market that aggregates real-time product listings, allowing users to easily compare products and prices.",
@@ -63,6 +65,8 @@ export const Projects = () => {
         "User-centric platform connecting travelers with local hosts in Sikkim, featuring secure booking and dual-dashboard system.",
       tech: ["HTML", "CSS", "JavaScript", "MySQL", "PHP", "XAMPP"],
       period: "Jan 2024 - May 2024",
+      status: "Completed",
+      keyFeatures: ["Secure Booking", "Dual-Dashboard System", "Local Host Discovery"],
       image: "/Images/ProjectSection/Homestay/hs11.png",
       details: {
         introduction: "This project is a user-centric platform designed to connect travelers with local homestay hosts in Sikkim, featuring a secure booking process and a dual-dashboard system for both guests and hosts. The problem it addresses is that homestay owners often manage reservations and guest interactions manually, which leads to inefficiencies, potential booking errors, and communication gaps that can harm the guest experience. The proposed solution is a comprehensive system that automates reservation management, simplifies guest communication, and provides a centralized platform for discovering and booking unique, authentic accommodations.",
@@ -119,20 +123,19 @@ export const Projects = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                whileHover={{ y: -8 }}
-                className="glass-card flex flex-col overflow-hidden hover-glow transition-smooth relative group"
+                className="glass-card flex flex-col overflow-hidden glass-card-hover relative group"
               >
                 {/* Project Image */}
-                <div className="relative h-48 bg-secondary overflow-hidden">
+                <div className="relative h-48 bg-secondary/30 overflow-hidden border-b border-border/50">
                   {project.image ? (
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center border-b border-border">
-                      <ImageIcon className="w-16 h-16 text-muted-foreground/30" />
+                      <ImageIcon className="w-12 h-12 text-muted-foreground/30" strokeWidth={1.5} />
                     </div>
                   )}
                 </div>
@@ -142,22 +145,38 @@ export const Projects = () => {
                   <div className="flex-grow">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold mb-1">{project.title}</h3>
+                        <div className="flex items-center gap-3 mb-1">
+                          <h3 className="text-2xl font-semibold tracking-tight">{project.title}</h3>
+                          <span className="px-3 py-1 text-xs rounded-full font-medium glass border-border/50 text-foreground/80 flex items-center">
+                            {project.status === 'In Progress' && <span className="inline-block w-1.5 h-1.5 mr-1.5 rounded-full bg-amber-500 animate-pulse"></span>}
+                            {project.status}
+                          </span>
+                        </div>
                         <p className="text-sm text-muted-foreground">
                           {project.subtitle}
                         </p>
                       </div>
                     </div>
 
-                    <p className="text-muted-foreground mb-4 leading-relaxed flex-grow">
+                    <p className="text-muted-foreground/80 mb-6 leading-relaxed flex-grow text-sm">
                       {project.description}
                     </p>
+
+                    <div className="mb-6 space-y-1.5">
+                      <p className="text-xs font-semibold text-foreground/60 mb-2 uppercase tracking-wider">Key Features</p>
+                      {project.keyFeatures.map((feature, i) => (
+                        <div key={i} className="flex items-start">
+                          <span className="text-foreground/40 mr-2 text-sm">•</span>
+                          <span className="text-sm text-muted-foreground">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
 
                     <div className="flex flex-wrap gap-2 mb-4">
                       {project.tech.map((tech) => (
                         <span
                           key={tech}
-                          className="px-3 py-1 rounded-lg bg-secondary text-xs font-medium code-text"
+                          className="px-3 py-1.5 glass-tag text-[11px] font-medium text-foreground/70"
                         >
                           {tech}
                         </span>
@@ -165,16 +184,17 @@ export const Projects = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mt-auto pt-4">
-                    <span className="text-sm text-muted-foreground code-text">
+                  <div className="flex items-center justify-between mt-auto pt-6 border-t border-border/30">
+                    <span className="text-xs text-muted-foreground/60 font-medium tracking-wide">
                       {project.period}
                     </span>
                     <DialogTrigger asChild>
                       <motion.div
                         whileHover={{ scale: 1.1 }}
-                        className="p-2 rounded-lg bg-primary text-primary-foreground cursor-pointer"
+                        whileTap={{ scale: 0.9 }}
+                        className="p-2.5 rounded-full glass cursor-pointer hover:bg-secondary/20 transition-colors"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        <ExternalLink className="w-4 h-4 text-foreground/80" strokeWidth={1.5} />
                       </motion.div>
                     </DialogTrigger>
                   </div>

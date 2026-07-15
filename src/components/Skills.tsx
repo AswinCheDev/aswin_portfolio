@@ -99,32 +99,27 @@ export const Skills = () => {
                 rotateY: 5,
                 rotateX: 5,
               }}
-              className="glass-card p-6 hover-lift hover-glow relative overflow-hidden group"
+              className="glass-card p-8 glass-card-hover relative overflow-hidden group"
             >
-              {/* Background gradient */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
-              />
-
               {/* Icon */}
               <motion.div
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.6 }}
-                className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${category.color} mb-4`}
+                className="inline-flex p-3 glass-tag mb-4"
               >
-                <category.icon className="w-6 h-6 text-white" />
+                <category.icon className="w-5 h-5 text-foreground/80" strokeWidth={1.5} />
               </motion.div>
 
               {/* Title */}
               <h3 className="text-xl font-semibold mb-4">{category.title}</h3>
 
               {/* Skills */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {category.skills.map((skill) => (
                   <motion.span
                     key={skill}
                     whileHover={{ scale: 1.05 }}
-                    className="px-3 py-1 rounded-lg bg-secondary text-sm font-medium"
+                    className="px-4 py-2 glass-tag text-sm font-medium text-foreground/80"
                   >
                     {skill}
                   </motion.span>
