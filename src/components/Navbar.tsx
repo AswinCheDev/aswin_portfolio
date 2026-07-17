@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const JediCompassIcon = () => (
   <svg viewBox="0 0 100 100" className="w-14 h-14 relative z-10 drop-shadow-lg">
@@ -58,44 +59,26 @@ export const Navbar = () => {
   const [activeSection, setActiveSection] = useState("home");
   const navRef = useRef<HTMLDivElement>(null);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const navItems = [
-    { id: "home", label: "HOME", color: "#ffffff" },
-    { id: "about", label: "ABOUT", color: "#93c5fd" }, // Soft Blue
-    { id: "projects", label: "PROJECTS", color: "#f97316" }, // Orange
-    { id: "skills", label: "SKILLS", color: "#86efac" }, // Light Green
-    { id: "blog", label: "BLOG", color: "#f59e0b" }, // Amber
-    { id: "archives", label: "ARCHIVES", color: "#9ca3af" }, // Grey
-    { id: "contact", label: "CONTACT", color: "#7e22ce" }, // Deep Purple
+    { id: "/", label: "HOME", color: "#ffffff" },
+    { id: "/about", label: "ABOUT", color: "#93c5fd" }, // Soft Blue
+    { id: "/projects", label: "PROJECTS", color: "#f97316" }, // Orange
+    { id: "/skills", label: "SKILLS", color: "#86efac" }, // Light Green
+    { id: "/blog", label: "BLOG", color: "#f59e0b" }, // Amber
+    { id: "/archives", label: "ARCHIVES", color: "#9ca3af" }, // Grey
+    { id: "/contact", label: "CONTACT", color: "#7e22ce" }, // Deep Purple
   ];
 
-  const handleScroll = () => {
-    const sections = navItems.map((item) => document.getElementById(item.id));
-    const scrollPosition = window.scrollY;
-    const offset = 100;
-
-    for (let i = sections.length - 1; i >= 0; i--) {
-      const section = sections[i];
-      if (section && scrollPosition + offset >= section.offsetTop) {
-        setActiveSection(navItems[i].id);
-        break;
-      }
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    setActiveSection(location.pathname);
+  }, [location.pathname]);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(id);
-      setIsExpanded(false);
-    }
+    navigate(id);
+    setIsExpanded(false);
   };
 
   // Close when clicking outside

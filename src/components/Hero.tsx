@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Lanyard from "@/components/ui/Lanyard";
+import Galaxy from "@/components/ui/Galaxy";
 
 export const Hero = () => {
   const name = "Aswin Chettri";
@@ -72,16 +73,40 @@ export const Hero = () => {
       id="home"
       className="min-h-screen relative overflow-hidden flex items-center justify-center pt-32 md:pt-20"
     >
+      <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/50 uppercase z-20 font-mono pointer-events-none">
+        Tatooine
+      </div>
+
+      {/* Galaxy Background Layer */}
+      <div className="absolute inset-0 w-full h-full z-[-1]">
+        <Galaxy 
+          mouseRepulsion
+          mouseInteraction
+          density={1.4}
+          glowIntensity={0.2}
+          saturation={0}
+          hueShift={140}
+          twinkleIntensity={0.2}
+          rotationSpeed={0.1}
+          repulsionStrength={1}
+          autoCenterRepulsion={0}
+          starSpeed={0.4}
+          speed={1}
+        />
+      </div>
+
       {/* Full width Lanyard Canvas Layer */}
       {/* We use z-0 so it's behind the text, allowing text to be clicked, but since Fiber pointer events are tied to the Canvas DOM element, you can drag the Lanyard over the text once grabbed! */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        <Lanyard
-          position={[0, -1.2, 7.5]}
-          gravity={[0, -40, 0]}
-          frontImage="/assests/ID/id-card.png"
-          lanyardImage="/assests/ID/lanyard-strap.png"
-          imageFit="cover"
-        />
+      <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+        <div className="w-full h-full pointer-events-auto">
+          <Lanyard
+            position={[0, -1.2, 7.5]}
+            gravity={[0, -40, 0]}
+            frontImage="/assests/ID/id-card.png"
+            lanyardImage="/assests/ID/lanyard-strap.png"
+            imageFit="cover"
+          />
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-end gap-12 relative z-10 pointer-events-none px-6">

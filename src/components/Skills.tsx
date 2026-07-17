@@ -66,7 +66,10 @@ export const Skills = () => {
   };
 
   return (
-    <section id="skills" className="min-h-screen flex items-center px-6 py-20">
+    <section id="skills" className="min-h-screen flex items-center px-6 py-20 relative">
+      <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-muted-foreground/50 uppercase z-20 font-mono pointer-events-none">
+        Coruscant
+      </div>
       <div className="max-w-7xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -75,7 +78,7 @@ export const Skills = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 pixel-heading">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 display-heading">
             Technical Skills
           </h2>
           <p className="text-muted-foreground text-lg">

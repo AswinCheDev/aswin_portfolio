@@ -56,7 +56,7 @@ export const Bookshelf = () => {
           <div className="inline-flex p-3 glass-tag mb-4">
             <Library className="w-5 h-5 text-foreground/80" strokeWidth={1.5} />
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 pixel-heading">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 display-heading">
             Bookshelf
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
