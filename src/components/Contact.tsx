@@ -47,7 +47,7 @@ export const Contact = () => {
       className="relative min-h-screen flex items-center px-6 py-20"
     >
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-muted-foreground/50 uppercase z-20 font-mono pointer-events-none">
-        Hoth
+        Coruscant
       </div>
       <div className="max-w-5xl mx-auto w-full relative z-10">
         <motion.div

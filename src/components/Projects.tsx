@@ -100,7 +100,7 @@ export const Projects = () => {
   return (
     <section id="projects" className="min-h-screen flex items-center px-6 py-20 relative">
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-muted-foreground/50 uppercase z-20 font-mono pointer-events-none">
-        Endor
+        Corellia
       </div>
       <div className="max-w-7xl mx-auto w-full">
         <motion.div

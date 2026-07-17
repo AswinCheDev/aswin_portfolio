@@ -74,7 +74,7 @@ export const Hero = () => {
       className="min-h-screen relative overflow-hidden flex items-center justify-center pt-32 md:pt-20"
     >
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/50 uppercase z-20 font-mono pointer-events-none">
-        Tatooine
+        Docking Bay
       </div>
 
       {/* Galaxy Background Layer */}
