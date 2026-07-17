@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 
@@ -92,20 +93,20 @@ export const LightsaberCursor = () => {
        ? `0 0 15px 6px ${bladeColor}, 0.8), 0 0 30px 12px ${bladeColor}, 0.5)`
        : `0 0 10px 4px ${bladeColor}, 0.7), 0 0 20px 8px ${bladeColor}, 0.4)`);
 
-  return (
+  const cursorContent = (
     <motion.div
       className={`pointer-events-none fixed top-0 left-0 z-[9999] ${isLight ? 'mix-blend-normal' : 'mix-blend-screen'}`}
       style={{
         x: cursorXSpring,
         y: cursorYSpring,
         translateX: "-50%",
-        translateY: "-2px", // Slight offset to align the actual visual tip to the cursor position
+        translateY: "-2px",
         opacity: isVisible ? 1 : 0,
       }}
     >
       <div 
         className="relative flex flex-col items-center origin-top"
-        style={{ transform: "rotate(-35deg)" }} // Rotated to point top-left like a standard cursor
+        style={{ transform: "rotate(-35deg)" }}
       >
         {/* Lightsaber Blade */}
         <motion.div
@@ -135,4 +136,8 @@ export const LightsaberCursor = () => {
       </div>
     </motion.div>
   );
+
+  // Portal the cursor to the body so it sits perfectly on top of any portals like Dialogs
+  if (typeof document === 'undefined') return null;
+  return createPortal(cursorContent, document.body);
 };
