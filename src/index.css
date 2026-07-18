@@ -1,6 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee var(--duration) infinite linear;
+  }
+  .animate-marquee-vertical {
+    animation: marquee-vertical var(--duration) linear infinite;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+  }
+}
 
 /* macOS Minimal Design System */
 
@@ -178,6 +205,17 @@ h1, h2, h3, h4, h5, h6 {
 
   .glass-card {
     @apply glass rounded-2xl;
+  }
+
+  .blog-card {
+    background: rgba(26, 15, 5, 0.6);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    @apply rounded-2xl;
+  }
+
+  .font-saira {
+    font-family: 'Saira Stencil One', sans-serif;
   }
 
   .glass-card-hover {

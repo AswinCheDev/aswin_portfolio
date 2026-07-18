@@ -56,7 +56,7 @@ export const Hero = () => {
     },
     {
       icon: <SubstackIcon className="w-5 h-5" />,
-      href: "https://substack.com/",
+      href: "https://substack.com/@aswinche",
       label: "Substack",
       hoverColor: "hover:text-[#ff6719]",
     },
