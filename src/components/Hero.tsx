@@ -80,15 +80,13 @@ export const Hero = () => {
       {/* Galaxy Background Layer */}
       <div className="absolute inset-0 w-full h-full z-[-1]">
         <Galaxy 
-          mouseRepulsion
-          mouseInteraction
           density={1.4}
           glowIntensity={0.2}
           saturation={0}
           hueShift={140}
           twinkleIntensity={0.2}
           rotationSpeed={0.1}
-          repulsionStrength={1}
+          repulsionStrength={0}
           autoCenterRepulsion={0}
           starSpeed={0.4}
           speed={1}

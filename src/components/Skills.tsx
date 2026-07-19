@@ -3,7 +3,112 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import { motion, useAnimation, AnimatePresence, useMotionValue, useMotionTemplate, MotionValue } from "framer-motion";
 import DotField from "./backgrounds/DotField";
+import R2D2 from "./R2D2";
 import StackIcon from "tech-stack-icons";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { 
+  SiPython, SiJavascript, SiTypescript, SiCplusplus, SiPostgresql, 
+  SiReact, SiExpo, SiHtml5, SiCss, SiTailwindcss, SiWebgl,
+  SiNodedotjs, SiExpress, SiFastapi, SiFlask, SiDjango, SiMongodb, SiJsonwebtokens,
+  SiMysql, SiRedis, SiPytorch, SiScikitlearn, SiPandas, SiNumpy,
+  SiGit, SiGithub, SiLinux, SiPostman
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa";
+import { Search, Clock, Mail, Music, Network, Zap, Brain, BarChart, Cloud, Shield, Bot, TestTube } from "lucide-react";
+
+const TECH_CATEGORIES = [
+  {
+    property: "Languages",
+    items: [
+      { name: "Python", icon: SiPython, color: "#3776AB" },
+      { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "Java", icon: FaJava, color: "#007396" },
+      { name: "C++", icon: SiCplusplus, color: "#00599C" },
+      { name: "SQL", icon: SiPostgresql, color: "#4169E1" }
+    ]
+  },
+  {
+    property: "Frontend & Mobile",
+    items: [
+      { name: "React", icon: SiReact, color: "#61DAFB" },
+      { name: "React Native", icon: SiReact, color: "#61DAFB" },
+      { name: "Expo", icon: SiExpo, color: "#000000" },
+      { name: "HTML5", icon: SiHtml5, color: "#E34F26" },
+      { name: "CSS3", icon: SiCss, color: "#1572B6" },
+      { name: "TailwindCSS", icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "WebGL", icon: SiWebgl, color: "#990000" }
+    ]
+  },
+  {
+    property: "Backend",
+    items: [
+      { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+      { name: "Express.js", icon: SiExpress, color: "#000000" },
+      { name: "FastAPI", icon: SiFastapi, color: "#009688" },
+      { name: "Flask", icon: SiFlask, color: "#000000" },
+      { name: "Django", icon: SiDjango, color: "#092E20" },
+      { name: "Mongoose", icon: SiMongodb, color: "#47A248" },
+      { name: "JWT", icon: SiJsonwebtokens, color: "#000000" }
+    ]
+  },
+  {
+    property: "Data & Caching",
+    items: [
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+      { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+      { name: "Redis", icon: SiRedis, color: "#DC382D" },
+      { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" }
+    ]
+  },
+  {
+    property: "AI & ML",
+    items: [
+      { name: "PyTorch", icon: SiPytorch, color: "#EE4C2C" },
+      { name: "scikit-learn", icon: SiScikitlearn, color: "#F7931E" },
+      { name: "OpenAI CLIP", icon: Bot, color: "#412991" },
+      { name: "Prophet", icon: BarChart, color: "#333333" },
+      { name: "Pandas", icon: SiPandas, color: "#150458" },
+      { name: "NumPy", icon: SiNumpy, color: "#013243" }
+    ]
+  },
+  {
+    property: "Automation & Integrations",
+    items: [
+      { name: "Playwright", icon: TestTube, color: "#2EAD33" },
+      { name: "SerpAPI", icon: Search, color: "#F47D20" },
+      { name: "node-cron", icon: Clock, color: "#316CE6" },
+      { name: "Nodemailer", icon: Mail, color: "#22B573" },
+      { name: "Demucs", icon: Music, color: "#6B7280" },
+      { name: "WebSocket", icon: Network, color: "#000000" }
+    ]
+  },
+  {
+    property: "Tools & CI",
+    items: [
+      { name: "Git", icon: SiGit, color: "#F05032" },
+      { name: "GitHub", icon: SiGithub, color: "#181717" },
+      { name: "Linux", icon: SiLinux, color: "#FCC624" },
+      { name: "Postman", icon: SiPostman, color: "#FF6C37" },
+      { name: "Thunder Client", icon: Zap, color: "#505050" }
+    ]
+  },
+  {
+    property: "Domain Knowledge",
+    items: [
+      { name: "Machine Learning", icon: Brain, color: "#2563EB" },
+      { name: "Data Science", icon: BarChart, color: "#EF4444" },
+      { name: "Cloud Technology", icon: Cloud, color: "#10B981" },
+      { name: "Network Security", icon: Shield, color: "#374151" }
+    ]
+  }
+];
 
 const IconUser = ({ className, size }: { className?: string, size?: number | string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
@@ -519,7 +624,7 @@ const ModuleBlock = ({
   }, [isAnimating, startRect]);
 
   return (
-    <div ref={wrapperRef} className="z-50 relative lego-block-wrapper" style={{ width: widthPx }}>
+    <div id={`module-${module.id}`} ref={wrapperRef} className="z-50 relative lego-block-wrapper" style={{ width: widthPx }}>
       <button
         type="button"
         onClick={onClick}
@@ -662,10 +767,10 @@ export const Skills = () => {
           cursorForce={0.1}
           bulgeOnly
           gradientFrom="#ffffff"
-          gradientTo="#ffffff"
           glowColor="#10B981"
         />
       </div>
+      <R2D2 isFullScore={equippedModules.length === MODULES.length} />
 
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/60 uppercase z-20 font-mono pointer-events-none">
         Dagobah
@@ -679,11 +784,63 @@ export const Skills = () => {
           
           <div className="flex-1 w-full max-w-[800px] flex flex-col justify-center">
             
-            <div className="text-center lg:text-left mb-8">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 display-heading text-white">
-                Tech Stack
-              </h2>
-              <p className="text-white/60">
+            <div className="mb-8">
+              <div className="flex flex-col lg:flex-row items-center lg:items-end gap-4 lg:gap-6 justify-center lg:justify-start mb-2">
+                <h2 className="text-4xl md:text-5xl font-bold display-heading text-white">
+                  Tech Stack
+                </h2>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="flex items-center gap-2 px-4 py-2 mb-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-300 backdrop-blur-sm group">
+                      <span className="text-white text-xs font-bold tracking-widest uppercase">View All</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white group-hover:translate-x-1 transition-transform">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                      </svg>
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent macOSClose={true} style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }} className="sm:max-w-[1000px] max-h-[85vh] overflow-y-auto flex flex-col border border-black/5 shadow-2xl p-0">
+                    <DialogHeader className="flex-shrink-0 p-6 lg:p-8 pb-0 lg:pb-0">
+                      <DialogTitle className="text-3xl font-bold text-gray-900 drop-shadow-sm">Technologies I've Worked With</DialogTitle>
+                    </DialogHeader>
+                    <div className="flex-1 p-6 lg:p-8 pt-0 lg:pt-0 overflow-y-auto">
+                      <div className="flex flex-col gap-10 mt-2">
+                        {TECH_CATEGORIES.map((category) => (
+                        <div key={category.property} className="flex flex-col gap-5">
+                          <h4 className="text-xl font-bold text-gray-800 tracking-wide border-b border-black/5 pb-3">
+                            {category.property}
+                          </h4>
+                          <div className="flex flex-wrap gap-5">
+                            {category.items.map((item) => {
+                              const Icon = item.icon;
+                              return (
+                                <div 
+                                  key={item.name} 
+                                  className="flex flex-col items-center gap-2.5 group w-[70px]"
+                                >
+                                  {Icon ? (
+                                    <div className="w-14 h-14 rounded-2xl bg-black/5 border border-black/10 flex items-center justify-center group-hover:bg-black/10 group-hover:-translate-y-1 transition-all duration-300 shadow-sm">
+                                      <Icon className="w-7 h-7 opacity-80 group-hover:opacity-100 transition-opacity" color={item.color} />
+                                    </div>
+                                  ) : (
+                                    <div className="w-14 h-14 rounded-2xl bg-black/5 border border-black/10 flex items-center justify-center group-hover:bg-black/10 group-hover:-translate-y-1 transition-all duration-300 shadow-sm">
+                                      <span className="text-gray-400 text-xs">—</span>
+                                    </div>
+                                  )}
+                                  <span className="text-gray-600 text-[11px] font-semibold tracking-wide text-center leading-tight group-hover:text-gray-900 transition-colors">
+                                    {item.name}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              <p className="text-white/60 text-center lg:text-left mt-2 lg:mt-0">
                 Click to equip technologies and build my profile stack.
               </p>
             </div>
