@@ -15,15 +15,17 @@ function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
   const stoppedX = useRef<number | null>(null);
 
   useEffect(() => {
-    // Make his lights glow!
+    // Initial light setup
     scene.traverse((node: any) => {
       if (node.isMesh && node.name.includes('Projector')) {
-        node.material = node.material.clone();
-        // Give the main projector a bright blue glow, and secondary projectors a red/white glow
+        if (!node.userData.originalMaterial) {
+          node.userData.originalMaterial = node.material.clone();
+        }
+        node.material = node.userData.originalMaterial.clone();
         const isRed = node.name.includes('1') || node.name.includes('2');
         node.material.emissive = new THREE.Color(isRed ? '#ff2222' : '#0088ff');
         node.material.emissiveIntensity = 5;
-        node.material.toneMapped = false; // Prevents the color from washing out
+        node.material.toneMapped = false;
       }
     });
   }, [scene]);
@@ -38,6 +40,44 @@ function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
       }
     }
   }, [actions, isFullScore]);
+
+  useFrame((state) => {
+    if (isFullScore) {
+      // Make lights flicker wildly
+      const time = state.clock.getElapsedTime();
+      scene.traverse((node: any) => {
+        if (node.isMesh && node.name.includes('Projector')) {
+          // Add some randomness to the flicker
+          const randomFactor = Math.random();
+          const flickerSpeed = 20; // Fast flicker
+          const baseIntensity = 2;
+          const peakIntensity = 15;
+          
+          // Sine wave mixed with noise for a sporadic flickering effect
+          const intensity = baseIntensity + 
+            Math.max(0, Math.sin(time * flickerSpeed + node.id) * peakIntensity * (randomFactor > 0.3 ? 1 : 0));
+          
+          node.material.emissiveIntensity = intensity;
+
+          // Occasionally swap colors for disco effect!
+          if (randomFactor > 0.95) {
+             const colors = ['#ff2222', '#0088ff', '#ffffff', '#00ff00', '#ff00ff'];
+             const randomColor = colors[Math.floor(Math.random() * colors.length)];
+             node.material.emissive.set(randomColor);
+          }
+        }
+      });
+    } else {
+      // Reset to normal steady glow
+      scene.traverse((node: any) => {
+        if (node.isMesh && node.name.includes('Projector')) {
+          node.material.emissiveIntensity = 5;
+           const isRed = node.name.includes('1') || node.name.includes('2');
+           node.material.emissive.set(isRed ? '#ff2222' : '#0088ff');
+        }
+      });
+    }
+  });
 
   useFrame((state, delta) => {
     if (group.current) {
