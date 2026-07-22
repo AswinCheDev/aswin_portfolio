@@ -1,8 +1,6 @@
-// src/components/Contact.tsx
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Github, Linkedin } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { ContactForm } from "./ContactForm";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { Coruscant3D } from "./backgrounds/Coruscant3D";
 
 export const Contact = () => {
   const contactInfo = [
@@ -21,144 +19,49 @@ export const Contact = () => {
     {
       icon: MapPin,
       label: "Location",
-      value: "Gangtok, Sikkim 737102",
+      value: "Coruscant, Road",
       href: null,
-    },
-  ];
-
-  const socialLinks = [
-    {
-      icon: Github,
-      label: "GitHub",
-      href: "https://github.com/Skenlrd",
-      color: "from-gray-600 to-gray-800",
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      href: "https://linkedin.com/in/aswinchettri",
-      color: "from-blue-600 to-blue-800",
     },
   ];
 
   return (
     <section 
       id="contact" 
-      className="relative min-h-screen flex items-center px-6 py-20"
+      className="relative h-screen max-h-screen flex flex-col items-center justify-end pb-4 pt-16 overflow-hidden"
     >
-      <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-muted-foreground/50 uppercase z-20 font-mono pointer-events-none">
-        Coruscant
-      </div>
-      <div className="max-w-5xl mx-auto w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 display-heading">
-            Get In Touch
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            Let's build something amazing together
-          </p>
-        </motion.div>
+      {/* Fully 3D WebGL Background + Projector + Form */}
+      <Coruscant3D />
+      
+      {/* Spacer to push cards to the bottom */}
+      <div className="flex-1 pointer-events-none"></div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact info and social links */}
-          <div className="space-y-6 md:space-y-8">
-            {contactInfo.map((info, index) => (
-              <motion.a
-                key={info.label}
-                href={info.href || "#"}
-                target={info.href?.startsWith("http") ? "_blank" : undefined}
-                rel={info.href?.startsWith("http") ? "noopener noreferrer" : undefined}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="flex items-center gap-4 md:gap-6 p-4 md:p-6 glass-card glass-card-hover group"
-              >
-                <div className="p-3 md:p-4 glass-tag">
-                  <info.icon className="w-5 h-5 md:w-6 md:h-6 text-foreground/80" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h4 className="text-lg md:text-xl font-semibold mb-1 text-foreground/90">{info.label}</h4>
-                  <p className="text-sm md:text-base text-muted-foreground group-hover:text-primary transition-colors">
-                    {info.value}
-                  </p>
-                </div>
-              </motion.a>
-            ))}
-
-            {/* Social Links Mini-Grid */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="flex gap-4 pt-4"
+      {/* Bottom Contact Cards (Horizontal Layout with floating animation) */}
+      <div className="relative z-30 w-full max-w-5xl px-4 mt-2 mb-2">
+        <div className="flex flex-row justify-center items-center gap-2 md:gap-4 flex-wrap">
+          {contactInfo.map((info, index) => (
+            <motion.a
+              key={info.label}
+              href={info.href || "#"}
+              target={info.href?.startsWith("http") ? "_blank" : undefined}
+              rel={info.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: [0, -6, 0] }}
+              transition={{ 
+                opacity: { duration: 0.5, delay: index * 0.1 },
+                y: { repeat: Infinity, duration: 4, delay: index * 0.5, ease: "easeInOut" }
+              }}
+              className="flex items-center gap-2 p-2 md:p-3 bg-slate-900/60 backdrop-blur-md border border-slate-700/50 hover:border-cyan-500/50 rounded-xl transition-colors w-auto min-w-[160px] group"
             >
-              {socialLinks.map((social, idx) => (
-                <motion.a
-                  key={idx}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-4 glass-card glass-card-hover text-foreground/80 hover:text-foreground"
-                  aria-label={social.label}
-                >
-                  <social.icon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
-                </motion.a>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Right Side: CTA and Dialog */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="glass-card p-8 flex flex-col justify-center"
-          >
-            <div>
-              <h3 className="text-2xl font-bold mb-4">Connect with me</h3>
-              <p className="text-muted-foreground mb-8">
-                Follow my journey, stay updated with my latest projects, or drop me a message if you want to collaborate!
-              </p>
-            </div>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 glass rounded-xl font-medium text-center text-foreground/90 border border-border hover:bg-secondary/20 transition-colors cursor-pointer"
-                >
-                  Send a Message
-                </motion.div>
-              </DialogTrigger>
-              <DialogContent macOSClose={true} className="sm:max-w-[425px]">
-                <ContactForm />
-              </DialogContent>
-            </Dialog>
-          </motion.div>
+              <div className="text-slate-400 group-hover:text-cyan-400 transition-colors">
+                <info.icon className="w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] md:text-xs text-slate-400 font-mono uppercase tracking-wider">{info.label}</span>
+                <span className="text-xs md:text-sm text-slate-200 font-medium">{info.value}</span>
+              </div>
+            </motion.a>
+          ))}
         </div>
-
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12 text-muted-foreground"
-        >
-          <p>© 2025 Aswin Chettri</p>
-        </motion.div>
       </div>
     </section>
   );
