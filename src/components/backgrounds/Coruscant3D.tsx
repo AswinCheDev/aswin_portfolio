@@ -1,4 +1,4 @@
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useTexture } from "@react-three/drei";
@@ -104,16 +104,13 @@ const Scene = () => {
         <directionalLight position={[-10, 10, -10]} intensity={1.0} color="#22d3ee" />
         <fog attach="fog" args={["#020617", 15, 60]} />
         
-        <BackgroundPlane />
         
-        <TrafficCurve points={curve1} color="#ff2a2a" speed={0.15} count={80} />
-        <TrafficCurve points={curve3} color="#ff2a2a" speed={0.2} count={60} />
-        <TrafficCurve points={curve2} color="#22d3ee" speed={0.18} count={100} />
+        <BackgroundPlane />
       </group>
 
       {/* Hologram System */}
       <group position={[0, -2, -5]}>
-         <HoloProjector position={[0, -6, 0]} />
+         <HoloProjector position={[0, -6, -0.5]} />
          {/* The panel is above the projector */}
          <HoloFormPanel position={[0, 2, 0]} />
       </group>
@@ -125,10 +122,12 @@ export const Coruscant3D = () => {
   return (
     <div className="absolute inset-0 w-full h-full z-0 bg-[#020617]">
       <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
-        <Scene />
-        <EffectComposer disableNormalPass={false}>
-          <Bloom luminanceThreshold={0.1} mipmapBlur intensity={1.5} />
-        </EffectComposer>
+        <Suspense fallback={null}>
+          <Scene />
+          <EffectComposer disableNormalPass={false}>
+            <Bloom luminanceThreshold={0.1} mipmapBlur intensity={1.5} />
+          </EffectComposer>
+        </Suspense>
       </Canvas>
     </div>
   );

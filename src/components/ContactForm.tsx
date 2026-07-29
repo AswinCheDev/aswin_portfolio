@@ -142,7 +142,6 @@ export function ContactForm() {
             </div>
           </form>
         </Form>
-      </div>
     </div>
   );
 }

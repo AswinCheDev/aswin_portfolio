@@ -19,7 +19,7 @@ export const Contact = () => {
     {
       icon: MapPin,
       label: "Location",
-      value: "Coruscant, Road",
+      value: "Gangtok, Sikkim",
       href: null,
     },
   ];

@@ -17,26 +17,45 @@ const panelFragmentShader = `
   uniform vec3 color;
   varying vec2 vUv;
 
+  // Simple noise function
+  float random (in vec2 st) {
+      return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+  }
+
   void main() {
     // Basic glowing border
-    float borderThickness = 0.02;
+    float borderThickness = 0.015;
     float edgeGlowX = smoothstep(0.0, borderThickness, vUv.x) * smoothstep(1.0, 1.0 - borderThickness, vUv.x);
     float edgeGlowY = smoothstep(0.0, borderThickness, vUv.y) * smoothstep(1.0, 1.0 - borderThickness, vUv.y);
     float border = 1.0 - (edgeGlowX * edgeGlowY);
 
-    // Scanlines
-    float scanline = sin(vUv.y * 100.0 - time * 10.0) * 0.05;
+    // Scanlines moving upwards
+    float scanline = sin(vUv.y * 150.0 - time * 12.0) * 0.08;
+    
+    // Hexagonal / Grid pattern approximation
+    float gridX = smoothstep(0.95, 1.0, fract(vUv.x * 40.0));
+    float gridY = smoothstep(0.95, 1.0, fract(vUv.y * 30.0));
+    float grid = max(gridX, gridY) * 0.1;
+    
+    // Static noise and slight flicker
+    float noise = random(vUv + time) * 0.05;
+    float flicker = sin(time * 25.0) * 0.05 + 0.95;
     
     // Base translucent background
-    float alpha = 0.15 + border * 0.8 + scanline;
+    float alpha = (0.1 + border * 0.6 + scanline + grid + noise) * flicker;
 
     // Add some brighter corners (chamfer effect approximation)
     float cornerDist = length(vec2(0.5, 0.5) - vUv);
     if (cornerDist > 0.65) {
-      alpha += 0.5;
+      alpha += 0.3 * flicker;
     }
 
-    gl_FragColor = vec4(color, alpha);
+    // Chromatic hologram color shifting
+    vec3 cyan = color;
+    vec3 pink = vec3(0.9, 0.2, 0.6);
+    vec3 finalColor = mix(cyan, pink, scanline * 5.0 + noise * 2.0);
+
+    gl_FragColor = vec4(finalColor, alpha);
   }
 `;
 

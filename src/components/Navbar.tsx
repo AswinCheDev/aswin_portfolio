@@ -68,7 +68,6 @@ export const Navbar = () => {
     { id: "/projects", label: "PROJECTS", color: "#f97316" }, // Orange
     { id: "/skills", label: "SKILLS", color: "#86efac" }, // Light Green
     { id: "/blog", label: "BLOG", color: "#f59e0b" }, // Amber
-    { id: "/archives", label: "ARCHIVES", color: "#9ca3af" }, // Grey
     { id: "/contact", label: "CONTACT", color: "#7e22ce" }, // Deep Purple
   ];
 

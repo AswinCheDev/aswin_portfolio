@@ -12,7 +12,6 @@ import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Blog } from "@/components/Blog";
 import { Contact } from "@/components/Contact";
-import Archives from "./pages/Archives";
 
 import { LandingScene } from "./components/landing/LandingScene";
 import { GalaxyIntro } from "./components/landing/GalaxyIntro";
@@ -64,7 +63,6 @@ const App = () => {
                       <Route path="projects" element={<Projects />} />
                       <Route path="skills" element={<Skills />} />
                       <Route path="blog" element={<Blog />} />
-                      <Route path="archives" element={<Archives />} />
                       <Route path="contact" element={<Contact />} />
                     </Route>
                   </Routes>

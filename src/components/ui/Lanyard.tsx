@@ -124,11 +124,22 @@ function Band({
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB) as any;
   const texture = useTexture(lanyardImage || lanyard);
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   // useTexture must be called unconditionally; use a blank pixel when an image
   // isn't supplied for a given face, then skip compositing it below.
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
+
+  useEffect(() => {
+    if (texture) {
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    }
+    if (frontTex) {
+      frontTex.anisotropy = 16;
+    }
+    if (backTex) {
+      backTex.anisotropy = 16;
+    }
+  }, [texture, frontTex, backTex]);
 
   // Composite the front/back images into the card's texture atlas (front = left
   // half, back = right half). Each image is drawn aspect-preserving (no stretch).
@@ -150,6 +161,7 @@ function Band({
     ctx.drawImage(baseImg, 0, 0, W, H);
 
     const drawFitted = (img: any, rect: any) => {
+      if (!img || (typeof img.complete === 'boolean' && !img.complete) || !img.width || !img.height) return;
       const rx = rect.x * W;
       const ry = rect.y * H;
       const rw = rect.w * W;
@@ -221,11 +233,6 @@ function Band({
   });
 
   (curve as any).curveType = 'chordal';
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  
-  if (frontTex) {
-    frontTex.anisotropy = 16;
-  }
 
   return (
     <>

@@ -25,20 +25,24 @@ const coneFragmentShader = `
   }
 
   void main() {
-    // Fade out towards the top (y is positive going up in standard cone, but let's use vUv.y)
-    // vUv.y goes from 0 at bottom to 1 at top for a ConeGeometry.
-    float alpha = 1.0 - vUv.y;
+    // Smooth fade out towards the top
+    float alpha = smoothstep(1.0, 0.0, vUv.y);
     
-    // Add some scanlines/noise moving upwards
-    float scanline = sin(vUv.y * 50.0 - time * 5.0) * 0.5 + 0.5;
-    float noise = random(vUv * time) * 0.1;
+    // Flickering scanlines moving upwards rapidly
+    float scanline = sin(vUv.y * 100.0 - time * 15.0) * 0.5 + 0.5;
+    float flicker = sin(time * 25.0) * 0.05 + 0.95;
     
-    // Combine
-    float finalAlpha = alpha * (0.3 + scanline * 0.2 + noise);
+    // Moving static noise for holographic interference
+    float noise = random(vUv + time) * 0.15;
     
-    // Increase alpha near the edges for a rim light effect
-    float rim = pow(1.0 - abs(vUv.x - 0.5) * 2.0, 2.0);
-    finalAlpha += rim * 0.2 * alpha;
+    // Crisp rim lighting (Fresnel-like edge glow)
+    float rim = pow(1.0 - abs(vUv.x - 0.5) * 2.0, 3.0);
+    
+    // Base projection core that is highly transparent in the middle
+    float core = 0.05 + scanline * 0.15 + noise;
+    
+    // Combine for a volumetric projection effect
+    float finalAlpha = alpha * flicker * (core + rim * 0.8);
 
     gl_FragColor = vec4(color, finalAlpha);
   }
@@ -73,9 +77,8 @@ export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, n
       <primitive object={scene} scale={2} position={[0, -0.5, 0]} />
 
       {/* Volumetric Light Cone */}
-      {/* ConeGeometry args: [radiusBottom, radiusTop, height, radialSegments, heightSegments, openEnded] */}
-      {/* Wait, standard ConeGeometry is radius, height, radialSegments. Let's use CylinderGeometry for better top/bottom control */}
-      <mesh position={[0, 3, 0]}>
+      {/* Use a heavily squashed Z-scale so the cylinder doesn't poke through the CSS3D HTML form */}
+      <mesh position={[0, 3, 0]} scale={[1, 1, 0.001]}>
         {/* radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded */}
         <cylinderGeometry args={[4, 1.5, 6, 32, 1, true]} />
         <shaderMaterial
