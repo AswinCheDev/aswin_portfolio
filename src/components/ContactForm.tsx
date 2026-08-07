@@ -68,14 +68,12 @@ export function ContactForm() {
   }
 
   return (
-    <div className="relative p-6 md:p-8 bg-transparent overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-cyan-900/20 pointer-events-none" />
+    <div className="relative p-8 md:p-12 bg-cyan-950/[0.35] hover:bg-cyan-950/70 focus-within:bg-cyan-950/80 backdrop-blur-[2px] hover:backdrop-blur-md focus-within:backdrop-blur-md transition-all duration-500 rounded-2xl overflow-hidden border border-cyan-400/20 hover:border-cyan-400/40 focus-within:border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)] focus-within:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)] group animate-pulse-slow focus-within:animate-none">
+      {/* Holographic Scanline Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(6,182,212,0.15)_50%)] bg-[length:100%_4px] pointer-events-none opacity-50 mix-blend-screen" />
+      <div className="absolute inset-0 bg-gradient-to-b from-cyan-400/10 via-transparent to-cyan-900/20 pointer-events-none" />
         
-        {/* Tech Corner Accents */}
-        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400"></div>
-        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-400"></div>
-        <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-400"></div>
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400"></div>
+
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 relative z-10">
@@ -86,7 +84,7 @@ export function ContactForm() {
                 <FormItem>
                   <FormLabel className="text-cyan-300 font-mono text-xs tracking-widest uppercase ml-1">Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your full name" className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800" {...field} />
+                    <Input placeholder="Your full name" className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400 font-mono text-xs" />
                 </FormItem>
@@ -99,7 +97,7 @@ export function ContactForm() {
                 <FormItem>
                   <FormLabel className="text-cyan-300 font-mono text-xs tracking-widest uppercase ml-1">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="example@email.com" className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800" {...field} />
+                    <Input placeholder="example@email.com" className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400 font-mono text-xs" />
                 </FormItem>
@@ -112,7 +110,7 @@ export function ContactForm() {
                 <FormItem>
                   <FormLabel className="text-cyan-300 font-mono text-xs tracking-widest uppercase ml-1">Subject</FormLabel>
                   <FormControl>
-                    <Input placeholder="Subject of your message" className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800" {...field} />
+                    <Input placeholder="Subject of your message" className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-400 font-mono text-xs" />
                 </FormItem>
@@ -127,7 +125,7 @@ export function ContactForm() {
                   <FormControl>
                     <Textarea
                       placeholder="Your message"
-                      className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 min-h-[100px] resize-none"
+                      className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 min-h-[100px] resize-none !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]"
                       {...field}
                     />
                   </FormControl>

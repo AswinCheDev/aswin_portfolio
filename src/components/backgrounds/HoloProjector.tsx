@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
@@ -61,6 +61,19 @@ export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, n
     []
   );
 
+  useEffect(() => {
+    // Remove blinding white emissive glow from the base model
+    scene.traverse((node: any) => {
+      if (node.isMesh && node.material) {
+        if (node.material.emissive) {
+          // Keep a very slight cyan emissive instead of blown out white
+          node.material.emissive = new THREE.Color("#0891b2");
+          node.material.emissiveIntensity = 0.5;
+        }
+      }
+    });
+  }, [scene]);
+
   useFrame((state) => {
     if (materialRef.current) {
       materialRef.current.uniforms.time.value = state.clock.elapsedTime;
@@ -77,10 +90,9 @@ export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, n
       <primitive object={scene} scale={2} position={[0, -0.5, 0]} />
 
       {/* Volumetric Light Cone */}
-      {/* Use a heavily squashed Z-scale so the cylinder doesn't poke through the CSS3D HTML form */}
-      <mesh position={[0, 3, 0]} scale={[1, 1, 0.001]}>
+      <mesh position={[0, 2.5, 0]}>
         {/* radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded */}
-        <cylinderGeometry args={[4, 1.5, 6, 32, 1, true]} />
+        <cylinderGeometry args={[7.5, 0.2, 5, 32, 1, true]} />
         <shaderMaterial
           ref={materialRef}
           vertexShader={coneVertexShader}

@@ -109,10 +109,10 @@ const Scene = () => {
       </group>
 
       {/* Hologram System */}
-      <group position={[0, -2, -5]}>
-         <HoloProjector position={[0, -6, -0.5]} />
+      <group position={[0, -4.5, -5]}>
+         <HoloProjector position={[0, -6, 0]} />
          {/* The panel is above the projector */}
-         <HoloFormPanel position={[0, 2, 0]} />
+         <HoloFormPanel position={[0, 5.5, 0]} />
       </group>
     </>
   );

@@ -42,12 +42,12 @@ const panelFragmentShader = `
     float flicker = sin(time * 25.0) * 0.05 + 0.95;
     
     // Base translucent background
-    float alpha = (0.1 + border * 0.6 + scanline + grid + noise) * flicker;
+    float alpha = (0.03 + border * 0.25 + scanline + grid + noise) * flicker;
 
     // Add some brighter corners (chamfer effect approximation)
     float cornerDist = length(vec2(0.5, 0.5) - vUv);
     if (cornerDist > 0.65) {
-      alpha += 0.3 * flicker;
+      alpha += 0.1 * flicker;
     }
 
     // Chromatic hologram color shifting
@@ -83,28 +83,14 @@ export const HoloFormPanel = ({ position = [0, 0, 0] }: { position?: [number, nu
 
   return (
     <group ref={groupRef} position={position}>
-      {/* Background Holographic Plane */}
-      <mesh position={[0, 0, -0.01]}>
-        <planeGeometry args={[12, 8]} />
-        <shaderMaterial
-          ref={materialRef}
-          vertexShader={panelVertexShader}
-          fragmentShader={panelFragmentShader}
-          uniforms={uniforms}
-          transparent={true}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+
 
       {/* Projected HTML Form */}
       <Html
         transform
-        occlude="blending"
         position={[0, 0, 0]}
         style={{ 
-          width: '600px', // Fixed width to match the 3D plane aspect ratio
+          width: '800px', // Fixed width to match the 3D plane aspect ratio
           // Remove pointer-events from parent container to allow clicking inside
         }}
       >
