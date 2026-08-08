@@ -19,7 +19,7 @@ export const Hero = () => {
   const socialLinks = [
     {
       icon: <FileText className="w-[24px] h-[24px]" strokeWidth={1.5} />,
-      href: "https://drive.google.com/file/d/1808wdevslP7xGMFFvO-VPWRtZNj9U6Lx/view?usp=drive_link",
+      href: "https://drive.google.com/file/d/1hYD9Px6ltlxMZNOmIl3IcdgSe2zSriVB/view?usp=drive_link",
       label: "Resume",
       text: "Resume",
       hoverColor: "hover:text-blue-500",
