@@ -29,12 +29,13 @@ export const StarField = ({ count = 2000, isHyperspace = false }: StarFieldProps
 
   useFrame((_, delta) => {
     if (isHyperspace) {
-      currentSpeed.current += delta * 2000; // Rapidly accelerate
+      currentSpeed.current = Math.min(currentSpeed.current + delta * 2000, 1500); // Rapidly accelerate, but cap max speed
     }
     
     if (meshRef.current) {
       // Calculate how much to stretch the stars based on speed
-      const stretch = isHyperspace ? Math.min(Math.max(1, currentSpeed.current * 0.05), 100) : 1;
+      // Make lines shorter but thicker for a more realistic hyperjump look
+      const stretch = isHyperspace ? Math.min(Math.max(1, currentSpeed.current * 0.015), 25) : 1;
       
       for (let i = 0; i < count; i++) {
         const star = starData[i];
@@ -47,8 +48,8 @@ export const StarField = ({ count = 2000, isHyperspace = false }: StarFieldProps
         
         // Apply position and stretch scale
         dummy.position.set(star.x, star.y, star.z);
-        // Base size is very small, but stretches on Z when in hyperspace
-        dummy.scale.set(0.02, 0.02, 0.02 + stretch); 
+        // Base size is thicker, but stretches less on Z when in hyperspace
+        dummy.scale.set(0.08, 0.08, 0.08 + stretch); 
         dummy.updateMatrix();
         meshRef.current.setMatrixAt(i, dummy.matrix);
       }
@@ -60,7 +61,7 @@ export const StarField = ({ count = 2000, isHyperspace = false }: StarFieldProps
     <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
       <boxGeometry args={[1, 1, 1]} />
       <meshBasicMaterial 
-        color="#ffffff" 
+        color="#cce6ff" 
         transparent 
         opacity={0.8} 
         blending={THREE.AdditiveBlending} 

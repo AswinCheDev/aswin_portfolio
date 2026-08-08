@@ -265,13 +265,13 @@ export const Skills = () => {
           </Canvas>
         </div>
 
-        <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 relative pt-28 lg:pt-10 pb-8 px-8 w-full h-full max-w-[1400px] mx-auto z-10 pointer-events-none">
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative pt-28 lg:pt-10 pb-8 px-6 md:px-10 lg:px-16 w-full h-full z-10 pointer-events-none">
           
-          <div className="flex-1 w-full max-w-[580px] flex flex-col justify-center pointer-events-auto">
+          <div className="flex-1 w-full max-w-[580px] flex flex-col justify-center items-start pointer-events-auto">
             
             <div className="mb-8">
-              <div className="flex flex-col lg:flex-row items-center lg:items-end gap-4 lg:gap-6 justify-center lg:justify-start mb-2">
-                <h2 className="text-4xl md:text-5xl font-bold display-heading text-white">
+              <div className="flex flex-col lg:flex-row items-start lg:items-end gap-4 lg:gap-6 justify-start mb-2">
+                <h2 className="text-4xl md:text-5xl font-bold display-heading uppercase text-white">
                   Tech Stack
                 </h2>
                 <Dialog>
@@ -322,12 +322,12 @@ export const Skills = () => {
                 </DialogContent>
               </Dialog>
               </div>
-              <p className="text-white/60 text-center lg:text-left mt-2 lg:mt-0">
+              <p className="text-white/60 text-left mt-2 lg:mt-0">
                 Click to equip technologies and build my profile stack.
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 relative z-20 min-h-[300px] content-start pt-12">
+            <div className="flex flex-wrap justify-start gap-4 relative z-20 min-h-[300px] content-start pt-12">
               {MODULES.map((module, i) => {
                 const isEquipped = equippedIds.includes(module.id);
                 const startRect = animatingBlocks[module.id];
@@ -389,13 +389,13 @@ export const Skills = () => {
             </div>
 
             {/* Display XP Score over the canvas */}
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-4 flex items-center gap-4 shadow-[0_8px_32px_rgba(255,255,255,0.05)] z-20 transition-all pointer-events-auto">
-              <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner">
-                <IconUser className="w-6 h-6 text-white/90 drop-shadow-md" />
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl py-2.5 px-6 min-w-[280px] flex items-center gap-5 shadow-[0_8px_32px_rgba(255,255,255,0.05)] z-20 transition-all pointer-events-auto">
+              <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner shrink-0">
+                <IconUser className="w-7 h-7 text-white/90 drop-shadow-md" />
               </div>
-              <div className="flex-1 min-w-[120px]">
+              <div className="flex-1 min-w-[150px]">
                 <h3 className="font-sans font-bold text-white/90 text-[16px] tracking-wide whitespace-nowrap drop-shadow-md">Aswin Chettri</h3>
-                <p className="font-mono text-[11px] font-bold text-[#ccff00] tracking-[0.2em] uppercase mt-1 whitespace-nowrap drop-shadow-md opacity-90">
+                <p className="font-mono text-[11px] font-bold text-[#ccff00] tracking-[0.2em] uppercase mt-0.5 whitespace-nowrap drop-shadow-md opacity-90">
                   {equippedModules.length === 0 ? "Select technologies" : `Level: ${equippedModules.length * 10}XP`}
                 </p>
               </div>

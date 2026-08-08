@@ -330,7 +330,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
                 ASWIN CHETTRI
               </h1>
               <h2 className="text-xs md:text-sm text-[#ff3333] font-mono tracking-[0.3em] uppercase opacity-90">
-                SOFTWARE DEVELOPER // RED LEADER
+                SOFTWARE DEVELOPER // ROGUE SQUADRON
               </h2>
             </motion.div>
           </div>

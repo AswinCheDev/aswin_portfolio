@@ -130,10 +130,10 @@ void main() {
     
     if (y > horizon) {
         // --- SKY & CLOUDS ---
-        // Multiple layers of clouds for depth
-        float cloudBase = fbm(vec3(p.x * 1.5, p.y * 1.5 - t * 0.05, t * 0.04));
-        float cloudDetail = fbm(vec3(p.x * 4.0 + t * 0.02, p.y * 3.0, t * 0.08));
-        float highClouds = fbm(vec3(p.x * 8.0, p.y * 8.0 - t * 0.1, t * 0.02));
+        // Multiple layers of clouds for depth with increased movement speed
+        float cloudBase = fbm(vec3(p.x * 1.5 + t * 0.25, p.y * 1.5 - t * 0.2, t * 0.2));
+        float cloudDetail = fbm(vec3(p.x * 4.0 - t * 0.35, p.y * 3.0 - t * 0.15, t * 0.3));
+        float highClouds = fbm(vec3(p.x * 8.0 + t * 0.5, p.y * 8.0 - t * 0.3, t * 0.2));
         
         float finalClouds = cloudBase * 0.6 + cloudDetail * 0.3 + highClouds * 0.1;
         

@@ -178,9 +178,8 @@ void main() {
 
 const skyboxFragmentShader = `
 varying vec3 vWorldPosition;
-uniform vec3 uMoon1Pos;
-uniform vec3 uMoon2Pos;
-uniform vec3 uMoon3Pos;
+uniform vec3 uSun1Pos;
+uniform vec3 uSun2Pos;
 
 void main() {
   vec3 viewDirection = normalize(vWorldPosition);
@@ -194,34 +193,27 @@ void main() {
   
   vec3 finalColor = skyColor;
   
-  // Moon 1 (Ghomrassen - Large, Pale)
-  vec3 m1Dir = normalize(uMoon1Pos);
-  float m1Dist = distance(viewDirection, m1Dir);
-  float m1Glow = smoothstep(0.3, 0.0, m1Dist);
-  float m1Core = smoothstep(0.05, 0.045, m1Dist); 
-  vec3 m1Color = vec3(0.9, 0.9, 0.7) * m1Glow * 1.5 + vec3(1.0, 1.0, 0.9) * m1Core * 1.5;
+  // Sun 1 (Tatoo I - Large, Yellow-White)
+  vec3 s1Dir = normalize(uSun1Pos);
+  float s1Dist = distance(viewDirection, s1Dir);
+  float s1Glow = smoothstep(0.4, 0.0, s1Dist);
+  float s1Core = smoothstep(0.08, 0.07, s1Dist); 
+  vec3 s1Color = vec3(1.0, 0.9, 0.7) * s1Glow * 1.5 + vec3(1.0, 1.0, 0.9) * s1Core * 2.0;
   
-  // Moon 2 (Guermessa - Medium, Reddish)
-  vec3 m2Dir = normalize(uMoon2Pos);
-  float m2Dist = distance(viewDirection, m2Dir);
-  float m2Glow = smoothstep(0.2, 0.0, m2Dist);
-  float m2Core = smoothstep(0.022, 0.02, m2Dist); 
-  vec3 m2Color = vec3(0.8, 0.3, 0.2) * m2Glow * 1.2 + vec3(1.0, 0.5, 0.4) * m2Core * 1.2;
+  // Sun 2 (Tatoo II - Smaller, Orange-Red)
+  vec3 s2Dir = normalize(uSun2Pos);
+  float s2Dist = distance(viewDirection, s2Dir);
+  float s2Glow = smoothstep(0.3, 0.0, s2Dist);
+  float s2Core = smoothstep(0.05, 0.04, s2Dist); 
+  vec3 s2Color = vec3(1.0, 0.5, 0.2) * s2Glow * 1.5 + vec3(1.0, 0.8, 0.6) * s2Core * 2.0;
   
-  // Moon 3 (Chenini - Small, Distant White)
-  vec3 m3Dir = normalize(uMoon3Pos);
-  float m3Dist = distance(viewDirection, m3Dir);
-  float m3Glow = smoothstep(0.1, 0.0, m3Dist);
-  float m3Core = smoothstep(0.012, 0.01, m3Dist); 
-  vec3 m3Color = vec3(0.7, 0.7, 0.9) * m3Glow * 1.0 + vec3(1.0, 1.0, 1.0) * m3Core * 1.5;
-  
-  finalColor += m1Color + m2Color + m3Color;
+  finalColor += s1Color + s2Color;
   
   gl_FragColor = vec4(finalColor, 1.0);
 }
 `;
 
-const ThreeMoonsSkybox = () => {
+const TwinSunsSkybox = () => {
   return (
     <mesh>
       <sphereGeometry args={[300, 32, 32]} />
@@ -230,9 +222,8 @@ const ThreeMoonsSkybox = () => {
         fragmentShader={skyboxFragmentShader}
         side={THREE.BackSide}
         uniforms={{
-          uMoon1Pos: { value: new THREE.Vector3(30, 40, -100) },
-          uMoon2Pos: { value: new THREE.Vector3(-40, 20, -120) },
-          uMoon3Pos: { value: new THREE.Vector3(10, 15, -150) }
+          uSun1Pos: { value: new THREE.Vector3(40, 30, -100) },
+          uSun2Pos: { value: new THREE.Vector3(10, 25, -120) }
         }}
         depthWrite={false}
       />
@@ -318,17 +309,16 @@ const SpeedLines = () => {
 export const PodraceBackground = ({ isActive = true }: { isActive?: boolean }) => {
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#ccaa88] pointer-events-none">
-      {isActive && (
-        <Canvas 
-          className="absolute inset-0" 
-          camera={{ position: [0, 2, 10], fov: 60 }} 
-          gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
-        >
-          <ThreeMoonsSkybox />
-          <FastTerrain />
-          <SpeedLines />
-        </Canvas>
-      )}
+      <Canvas 
+        className="absolute inset-0" 
+        camera={{ position: [0, 2, 10], fov: 60 }} 
+        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
+        frameloop={isActive ? "always" : "never"}
+      >
+        <TwinSunsSkybox />
+        <FastTerrain />
+        <SpeedLines />
+      </Canvas>
       
       {/* Vignette overlay for cinematic contrast */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-[#050201] opacity-60 pointer-events-none" />

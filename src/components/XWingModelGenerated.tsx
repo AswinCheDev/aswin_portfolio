@@ -234,7 +234,7 @@ type GLTFResult = GLTF & {
 }
 
 export function Model(props: JSX.IntrinsicElements['group']) {
-  const { nodes, materials } = useGLTF('/30654_-_x-wing_starfighter.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/assests/Models/30654_-_x-wing_starfighter.glb') as GLTFResult
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
@@ -448,4 +448,4 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/30654_-_x-wing_starfighter.glb')
+useGLTF.preload('/assests/Models/30654_-_x-wing_starfighter.glb')

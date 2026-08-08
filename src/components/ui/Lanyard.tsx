@@ -33,7 +33,8 @@ export default function Lanyard({
   backImage = null,
   imageFit = 'cover',
   lanyardImage = null,
-  lanyardWidth = 1
+  lanyardWidth = 1,
+  lanyardRepeat = [-3, 1]
 }: any) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
@@ -44,7 +45,7 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div className="lanyard-wrapper h-[500px] md:h-[800px]">
+    <div className="lanyard-wrapper h-full w-full min-h-[500px]">
       <Canvas
         flat
         camera={{ position: position, fov: fov }}
@@ -62,6 +63,7 @@ export default function Lanyard({
               imageFit={imageFit}
               lanyardImage={lanyardImage}
               lanyardWidth={lanyardWidth}
+              lanyardRepeat={lanyardRepeat}
             />
           </Physics>
         </Suspense>
@@ -107,7 +109,8 @@ function Band({
   backImage = null,
   imageFit = 'cover',
   lanyardImage = null,
-  lanyardWidth = 1
+  lanyardWidth = 1,
+  lanyardRepeat = [-3, 1]
 }: any) {
   const { width, height } = useThree((state) => state.size);
   const band = useRef<any>();
@@ -132,12 +135,15 @@ function Band({
   useEffect(() => {
     if (texture) {
       texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      texture.needsUpdate = true;
     }
     if (frontTex) {
       frontTex.anisotropy = 16;
+      frontTex.needsUpdate = true;
     }
     if (backTex) {
       backTex.anisotropy = 16;
+      backTex.needsUpdate = true;
     }
   }, [texture, frontTex, backTex]);
 
@@ -279,11 +285,11 @@ function Band({
         <meshLineGeometry />
         <meshLineMaterial
           color="white"
-          depthTest={false}
+          depthTest={true}
           resolution={[width, height]}
           useMap
           map={texture}
-          repeat={[-3, 1]}
+          repeat={lanyardRepeat}
           lineWidth={lanyardWidth}
         />
       </mesh>

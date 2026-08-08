@@ -228,7 +228,7 @@ export const Projects = () => {
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-muted-foreground/50 uppercase z-20 font-mono pointer-events-none">
         Corellia
       </div>
-      <div className="max-w-7xl mx-auto w-full relative z-10">
+      <div className="w-[85%] mx-auto relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -236,12 +236,12 @@ export const Projects = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 display-heading">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 display-heading uppercase">
             Projects
           </h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
             <Dialog key={project.title}>
               <motion.div
@@ -251,9 +251,10 @@ export const Projects = () => {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="h-full"
               >
-                <div className="flex flex-col h-full overflow-hidden relative group p-0 bg-white/[0.02] backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-3xl transition-all duration-300 hover:bg-white/5 cursor-pointer">
+                <DialogTrigger asChild>
+                  <div className="flex flex-col h-full overflow-hidden relative group p-0 bg-white/[0.02] backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-3xl transition-all duration-300 hover:bg-white/5 cursor-pointer">
                   {/* Project Image */}
-                <div className="relative h-64 sm:h-[280px] bg-secondary/30 overflow-hidden border-b border-border/50 shrink-0">
+                <div className="relative h-[220px] sm:h-[240px] bg-secondary/30 overflow-hidden border-b border-border/50 shrink-0">
                   {Array.isArray(project.image) ? (
                     <div className="flex w-full h-full gap-5 p-5 justify-center items-center bg-[#E2DFD3]">
                        {project.image.map((img, i) => (
@@ -279,7 +280,7 @@ export const Projects = () => {
                   {/* Overlay Title inside Image */}
                   <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex justify-between items-end">
                     <div>
-                      <h3 className="text-xl font-bold tracking-tight text-white drop-shadow-md">{project.title}</h3>
+                      <h3 className="text-[22px] font-bold tracking-tight text-white drop-shadow-md">{project.title}</h3>
                       <p className="text-sm text-white/80 drop-shadow-sm font-medium mt-1">{project.subtitle}</p>
                     </div>
                     {project.status && (
@@ -330,20 +331,19 @@ export const Projects = () => {
                     <span className="text-xs text-muted-foreground/60 font-medium tracking-wide">
                       {project.period}
                     </span>
-                    <DialogTrigger asChild>
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        className="p-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 cursor-pointer hover:bg-secondary/20 transition-colors"
-                      >
-                        <ExternalLink className="w-4 h-4 text-foreground/80" strokeWidth={1.5} />
-                      </motion.div>
-                    </DialogTrigger>
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className="p-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 cursor-pointer hover:bg-secondary/20 transition-colors"
+                    >
+                      <ExternalLink className="w-4 h-4 text-foreground/80" strokeWidth={1.5} />
+                    </motion.div>
                   </div>
                 </div>
                 </div>
+                </DialogTrigger>
               </motion.div>
-              <DialogContent macOSClose={true} className="sm:max-w-[960px] max-h-[90vh] overflow-y-auto flex flex-col border-none bg-background/98 shadow-2xl">
+              <DialogContent macOSClose={true} className="sm:max-w-[960px] max-h-[90vh] overflow-y-auto flex flex-col border-none bg-background/70 shadow-2xl">
                 <DialogHeader className="flex-shrink-0">
                   <DialogTitle className="text-3xl font-bold mb-2">{project.title}</DialogTitle>
                   <DialogDescription>{project.subtitle}</DialogDescription>
@@ -364,13 +364,13 @@ export const Projects = () => {
                                     loop
                                     muted
                                     playsInline
-                                    className="w-full h-auto max-h-[75vh] object-contain rounded-[1.5rem] bg-transparent"
+                                    className="w-auto max-w-full h-auto max-h-[70vh] mx-auto object-contain rounded-[1.5rem] bg-transparent"
                                   />
                                 ) : (
                                   <img 
                                     src={mediaUrl} 
                                     alt={`${project.title} screenshot ${i + 1}`} 
-                                    className="w-full h-auto max-h-[75vh] object-contain rounded-[1.5rem] bg-transparent"
+                                    className="w-auto max-w-full h-auto max-h-[70vh] mx-auto object-contain rounded-[1.5rem] bg-transparent"
                                   />
                                 )}
                               </div>

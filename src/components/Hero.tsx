@@ -18,50 +18,50 @@ export const Hero = () => {
 
   const socialLinks = [
     {
-      icon: <FileText className="w-5 h-5" strokeWidth={1.5} />,
+      icon: <FileText className="w-[24px] h-[24px]" strokeWidth={1.5} />,
       href: "https://drive.google.com/file/d/1808wdevslP7xGMFFvO-VPWRtZNj9U6Lx/view?usp=drive_link",
       label: "Resume",
       text: "Resume",
       hoverColor: "hover:text-blue-500",
     },
     {
-      icon: <Mail className="w-5 h-5" strokeWidth={1.5} />,
+      icon: <Mail className="w-[24px] h-[24px]" strokeWidth={1.5} />,
       href: "mailto:aswinkchettri@gmail.com",
       label: "Email",
       hoverColor: "hover:text-red-500",
     },
     {
-      icon: <Github className="w-5 h-5" strokeWidth={1.5} />,
+      icon: <Github className="w-[24px] h-[24px]" strokeWidth={1.5} />,
       href: "https://github.com/AswinCheDev",
       label: "GitHub",
       hoverColor: "hover:text-gray-900 dark:hover:text-white",
     },
     {
-      icon: <Linkedin className="w-5 h-5" strokeWidth={1.5} />,
+      icon: <Linkedin className="w-[24px] h-[24px]" strokeWidth={1.5} />,
       href: "https://linkedin.com/in/aswinchettri",
       label: "LinkedIn",
       hoverColor: "hover:text-[#0a66c2]",
     },
     {
-      icon: <XIcon className="w-5 h-5" />,
+      icon: <XIcon className="w-[22px] h-[22px]" />,
       href: "https://x.com/",
       label: "X (Twitter)",
       hoverColor: "hover:text-black dark:hover:text-white",
     },
     {
-      icon: <MediumIcon className="w-5 h-5" />,
+      icon: <MediumIcon className="w-[28px] h-[28px]" />,
       href: "https://medium.com/",
       label: "Medium",
       hoverColor: "hover:text-black dark:hover:text-white",
     },
     {
-      icon: <SubstackIcon className="w-5 h-5" />,
+      icon: <SubstackIcon className="w-[20px] h-[20px]" />,
       href: "https://substack.com/@aswinche",
       label: "Substack",
       hoverColor: "hover:text-[#ff6719]",
     },
     {
-      icon: <DailyDevIcon className="w-5 h-5" />,
+      icon: <DailyDevIcon className="w-[22px] h-[22px]" />,
       href: "https://app.daily.dev/aswinchettri",
       label: "Daily.dev",
       hoverColor: "hover:text-[#e05320]",
@@ -71,7 +71,7 @@ export const Hero = () => {
   return (
     <section
       id="home"
-      className="min-h-screen relative overflow-hidden flex items-center justify-center pt-32 md:pt-20"
+      className="min-h-screen relative flex items-center justify-center pt-32 md:pt-20"
     >
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/50 uppercase z-20 font-mono pointer-events-none">
         Docking Bay
@@ -79,7 +79,7 @@ export const Hero = () => {
 
       {/* Galaxy Background Layer */}
       <div className="absolute inset-0 w-full h-full z-[-1]">
-        <Galaxy 
+        <Galaxy
           density={1.4}
           glowIntensity={0.2}
           saturation={0}
@@ -98,10 +98,11 @@ export const Hero = () => {
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
         <div className="w-full h-full pointer-events-auto">
           <Lanyard
-            position={[0, -1.2, 7.5]}
+            position={[0, -1.2, 7.0]}
             gravity={[0, -40, 0]}
             frontImage="/assests/ID/id-card.png"
             lanyardImage="/assests/ID/lanyard-strap.png"
+            lanyardRepeat={[-5, 1]}
             imageFit="cover"
           />
         </div>
@@ -109,13 +110,13 @@ export const Hero = () => {
 
       <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-end gap-12 relative z-10 pointer-events-none px-6">
         {/* Right Side: Text (pointer-events-auto restores clickability for text/buttons) */}
-        <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto md:-mt-24">
+        <div className="w-full md:w-min flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto md:-mt-24">
           {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl md:text-7xl font-bold pixel-heading uppercase tracking-[0.15em]"
+            className="text-[52px] md:text-[76px] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
           >
             {name}
           </motion.h1>
@@ -125,12 +126,12 @@ export const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="mb-6 mt-4"
+            className="mb-4 mt-0"
           >
-            <h2 className="text-2xl md:text-3xl font-medium text-primary tracking-tight">
+            <h2 className="text-[26px] md:text-[34px] font-medium text-primary tracking-widest">
               {title}
             </h2>
-            <div className="flex items-center justify-center md:justify-start gap-2 mt-2 text-muted-foreground text-sm">
+            <div className="flex items-center justify-center md:justify-start gap-2 mt-0 text-muted-foreground text-base">
               <MapPin className="w-3.5 h-3.5" strokeWidth={1.5} />
               <span>Gangtok, Sikkim</span>
             </div>
@@ -141,10 +142,14 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.6 }}
-            className="text-lg text-muted-foreground mb-8"
+            className="text-xl text-muted-foreground mb-6"
           >
-            <p className="text-muted-foreground/80 leading-relaxed max-w-xl text-base">
-              I'm a Full Stack Developer who recently completed my Master of Computer Applications at Sikkim Manipal Institute of Technology, based out of the beautiful hills of Gangtok, Sikkim. I'm always building something, whether it's a personal project or an experiment, and always learning along the way.
+            <p className="text-muted-foreground/80 leading-relaxed w-full max-w-full text-justify text-[20px]">
+              I'm a Software Developer who recently completed my Master of
+              Computer Applications from Sikkim Manipal Institute of Technology,
+              based out of the beautiful hills of Gangtok, Sikkim. I'm always
+              building something, whether it's a personal project or an
+              experiment, and always learning along the way.
             </p>
           </motion.div>
 
@@ -168,7 +173,15 @@ export const Hero = () => {
                     aria-label={social.label}
                   >
                     {social.icon}
-                    {social.text && <span className={social.textClass || "font-medium text-[15px]"}>{social.text}</span>}
+                    {social.text && (
+                      <span
+                        className={
+                          social.textClass || "font-medium text-[20px]"
+                        }
+                      >
+                        {social.text}
+                      </span>
+                    )}
                   </motion.a>
                 </TooltipTrigger>
                 <TooltipContent>

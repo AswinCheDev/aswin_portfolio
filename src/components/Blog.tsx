@@ -34,8 +34,14 @@ export const Blog = () => {
           const formattedPosts = data.items.slice(0, 6).map((item: any) => {
             // Try to find an image in the description if thumbnail is empty
             let imageUrl = item.thumbnail;
+            
+            // Substack images are often in enclosure
+            if (!imageUrl && item.enclosure && item.enclosure.link) {
+              imageUrl = item.enclosure.link;
+            }
+            
             if (!imageUrl) {
-              const imgMatch = item.description.match(/<img[^>]+src="([^">]+)"/);
+              const imgMatch = item.content?.match(/<img[^>]+src="([^">]+)"/) || item.description?.match(/<img[^>]+src="([^">]+)"/);
               if (imgMatch) imageUrl = imgMatch[1];
             }
             
@@ -88,8 +94,8 @@ export const Blog = () => {
           {isLoading ? (
             // Loading Skeletons
             Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="blog-card flex flex-col bg-card/10 animate-pulse rounded-xl border border-white/5 overflow-hidden max-w-[280px]">
-                <div className="h-56 w-full bg-white/5 relative">
+              <div key={i} className="blog-card flex flex-col bg-card/10 animate-pulse rounded-xl border border-white/5 overflow-hidden max-w-[336px]">
+                <div className="h-[270px] w-full bg-white/5 relative">
                   <div className="absolute bottom-4 left-4 right-4 flex flex-col gap-3">
                     <div className="h-5 w-full bg-white/10 rounded"></div>
                     <div className="h-5 w-2/3 bg-white/10 rounded"></div>
@@ -110,11 +116,11 @@ export const Blog = () => {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                 whileHover={{ y: -8 }}
-                className="blog-card flex flex-col overflow-hidden hover-glow transition-smooth group relative z-10 rounded-xl bg-card/5 backdrop-blur-sm border border-white/10 max-w-[280px]"
+                className="blog-card flex flex-col overflow-hidden hover-glow transition-smooth group relative z-10 rounded-xl bg-card/5 backdrop-blur-sm border border-white/10 max-w-[336px]"
               >
                 {/* Cover Image Placeholder */}
                 <div
-                  className="h-56 w-full relative overflow-hidden"
+                  className="h-[270px] w-full relative overflow-hidden"
                   style={{ background: post.image }}
                 >
                   {/* Overlay gradient for text readability */}

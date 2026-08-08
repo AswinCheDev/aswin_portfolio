@@ -19,7 +19,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [stage, setStage] = useState<'galaxy' | 'arcade' | 'portfolio'>('portfolio');
+  const [stage, setStage] = useState<'galaxy' | 'arcade' | 'portfolio'>('galaxy');
 
   // Preload audio and images for smoother transitions
   useEffect(() => {
