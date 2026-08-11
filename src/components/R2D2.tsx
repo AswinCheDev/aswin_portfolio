@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useAnimations } from '@react-three/drei';
 import * as THREE from 'three';
@@ -136,10 +136,12 @@ export default function R2D2({ isFullScore }: { isFullScore?: boolean }) {
   return (
     <div className="absolute bottom-0 left-0 w-full h-full z-40 pointer-events-none">
       <Canvas style={{ pointerEvents: 'none' }} camera={{ position: [0, 0, 8], fov: 45 }}>
-        <ambientLight intensity={1.5} />
-        <directionalLight position={[10, 10, 10]} intensity={1.5} />
-        <directionalLight position={[-10, 10, -10]} intensity={0.5} />
-        <R2D2Model isFullScore={isFullScore} />
+        <Suspense fallback={null}>
+          <ambientLight intensity={1.5} />
+          <directionalLight position={[10, 10, 10]} intensity={1.5} />
+          <directionalLight position={[-10, 10, -10]} intensity={0.5} />
+          <R2D2Model isFullScore={isFullScore} />
+        </Suspense>
       </Canvas>
     </div>
   );

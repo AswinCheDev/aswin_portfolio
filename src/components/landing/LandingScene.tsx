@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -269,6 +269,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
           
           <div className="absolute inset-0 z-0">
             <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
+              <Suspense fallback={null}>
               <ambientLight intensity={0.6} />
               <directionalLight position={[10, 20, 20]} intensity={2.5} castShadow />
               <pointLight position={[-10, -10, 10]} intensity={1} color="#64FFDA" />
@@ -319,6 +320,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
               />
 
 
+              </Suspense>
             </Canvas>
           </div>
 
