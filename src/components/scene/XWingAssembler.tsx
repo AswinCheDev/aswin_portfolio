@@ -17,7 +17,7 @@ interface XWingAssemblerProps {
 // 21 modules total. We'll group meshes into 21 chunks.
 export function XWingAssembler({ equippedIds, modules, animatingBlocks, onAnimationComplete, onToggleEquip, mouseX, mouseY }: XWingAssemblerProps) {
   const group = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/assests/Models/30654_-_x-wing_starfighter.glb');
+  const { scene } = useGLTF('/assests/Models/30654_-_x-wing_starfighter.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
   const { camera, viewport } = useThree();
 
   const isMobile = viewport.width < viewport.height;
@@ -255,4 +255,4 @@ export function XWingAssembler({ equippedIds, modules, animatingBlocks, onAnimat
   );
 }
 
-useGLTF.preload('/assests/Models/30654_-_x-wing_starfighter.glb');
+// Removed preload

@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
   const group = useRef<THREE.Group>(null);
-  const { scene, animations } = useGLTF('/assests/Models/r2-d2_animated.glb');
+  const { scene, animations } = useGLTF('/assests/Models/r2-d2_animated.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
   const { actions } = useAnimations(animations, group);
   const { viewport } = useThree();
 
@@ -147,4 +147,4 @@ export default function R2D2({ isFullScore }: { isFullScore?: boolean }) {
   );
 }
 
-useGLTF.preload('/assests/Models/r2-d2_animated.glb');
+// Removed preload

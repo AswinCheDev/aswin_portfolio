@@ -35,7 +35,7 @@ export const EnemyShip = ({ id, position, color, isLast }: EnemyShipProps) => {
     }
   });
 
-  const { scene } = useGLTF('/assests/Models/star_wars_tie_fighter.glb');
+  const { scene } = useGLTF('/assests/Models/star_wars_tie_fighter.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   return (
@@ -52,4 +52,4 @@ export const EnemyShip = ({ id, position, color, isLast }: EnemyShipProps) => {
   );
 };
 
-useGLTF.preload('/assests/Models/star_wars_tie_fighter.glb');
+// Removed preload to prevent network saturation

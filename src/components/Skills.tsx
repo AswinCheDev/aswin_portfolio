@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect, useMemo, Suspense } from "react";
 import { motion, useAnimation, AnimatePresence, useMotionValue, useMotionTemplate, MotionValue } from "framer-motion";
 import DotField from "./backgrounds/DotField";
 import R2D2 from "./R2D2";
@@ -245,6 +245,7 @@ export const Skills = () => {
         {/* Absolute Full-Screen Canvas behind the content */}
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto">
           <Canvas camera={{ position: [0, isMobile ? 8 : 0, isMobile ? 35 : 15], fov: 45 }}>
+            <Suspense fallback={null}>
             <ambientLight intensity={1.5} />
             <directionalLight position={[10, 10, 10]} intensity={1.5} />
             <directionalLight position={[-10, 10, -10]} intensity={0.5} />
@@ -263,6 +264,7 @@ export const Skills = () => {
               mouseY={mouseY}
               onToggleEquip={handleToggleEquip}
             />
+            </Suspense>
           </Canvas>
         </div>
 

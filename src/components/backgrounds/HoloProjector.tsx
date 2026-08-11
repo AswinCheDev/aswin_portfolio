@@ -49,7 +49,7 @@ const coneFragmentShader = `
 `;
 
 export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, number, number] }) => {
-  const { scene } = useGLTF("/assests/Models/star_wars_holo_projector_fixed.glb");
+  const { scene } = useGLTF("/assests/Models/star_wars_holo_projector_fixed.glb", 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
 
@@ -108,4 +108,4 @@ export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, n
   );
 };
 
-useGLTF.preload("/assests/Models/star_wars_holo_projector_fixed.glb");
+// Removed preload
