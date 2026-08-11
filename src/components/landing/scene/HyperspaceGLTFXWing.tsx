@@ -6,7 +6,7 @@ import { Center, useGLTF } from '@react-three/drei';
 export const HyperspaceGLTFXWing = () => {
   const groupRef = useRef<THREE.Group>(null);
   const { camera, mouse } = useThree();
-  const { scene, materials } = useGLTF('/assests/Models/x-wing_t-65.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/') as any;
+  const { scene, materials } = useGLTF('/assests/Models/Compressed/x-wing_t-65.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/') as any;
 
   useEffect(() => {
     // Modify the built-in engine glows to match the classic red/orange/yellow look
