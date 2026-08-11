@@ -76,7 +76,7 @@ export const HoloFormPanel = ({ position = [0, 0, 0] }: { position?: [number, nu
     if (materialRef.current) {
       materialRef.current.uniforms.time.value = state.clock.elapsedTime;
     }
-    // Antigravity floating effect
+    // Floating hover effect
     if (groupRef.current) {
       const baseY = isMobile ? position[1] - 1.5 : position[1];
       groupRef.current.position.y = baseY + Math.sin(state.clock.elapsedTime) * 0.2;
