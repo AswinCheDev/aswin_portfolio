@@ -16,6 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
+import { useState, useEffect } from "react";
+
 const formSchema = z.object({
   fullName: z.string().min(2, {
     message: "Full name must be at least 2 characters.",
@@ -31,8 +33,13 @@ const formSchema = z.object({
   }),
 });
 
+const COOLDOWN_MS = 3 * 60 * 1000; // 3 minutes cooldown
+
 export function ContactForm() {
   const { toast } = useToast();
+  const [cooldownRemaining, setCooldownRemaining] = useState<number>(0);
+  const [isSending, setIsSending] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,10 +50,43 @@ export function ContactForm() {
     },
   });
 
+  // Handle cooldown countdown
+  useEffect(() => {
+    const checkCooldown = () => {
+      const lastSentStr = localStorage.getItem("last_email_sent");
+      if (lastSentStr) {
+        const lastSent = parseInt(lastSentStr, 10);
+        const now = Date.now();
+        const diff = now - lastSent;
+        if (diff < COOLDOWN_MS) {
+          setCooldownRemaining(Math.ceil((COOLDOWN_MS - diff) / 1000));
+          return true;
+        }
+      }
+      setCooldownRemaining(0);
+      return false;
+    };
+
+    checkCooldown();
+    const interval = setInterval(() => {
+      const active = checkCooldown();
+      if (!active) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
+    // Prevent double submits
+    if (cooldownRemaining > 0 || isSending) return;
+
     const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "";
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "";
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "";
+
+    setIsSending(true);
 
     emailjs.send(serviceID, templateID, values, publicKey)
       .then((response) => {
@@ -55,6 +95,11 @@ export function ContactForm() {
           description: "Your message has been beamed across the galaxy.",
         });
         form.reset();
+        
+        // Set cooldown in LocalStorage
+        const now = Date.now();
+        localStorage.setItem("last_email_sent", now.toString());
+        setCooldownRemaining(Math.ceil(COOLDOWN_MS / 1000));
       })
       .catch((err) => {
         toast({
@@ -62,6 +107,9 @@ export function ContactForm() {
           description: "Interference detected. Please try again.",
           variant: "destructive",
         });
+      })
+      .finally(() => {
+        setIsSending(false);
       });
   }
 
@@ -132,8 +180,17 @@ export function ContactForm() {
               )}
             />
             <div className="pt-6">
-              <Button type="submit" className="w-full bg-cyan-900/50 hover:bg-cyan-800/80 border border-cyan-500 text-cyan-100 font-mono uppercase tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all hover:shadow-[0_0_25px_rgba(6,182,212,0.6)]">
-                Transmit
+              <Button 
+                type="submit" 
+                disabled={isSending || cooldownRemaining > 0}
+                className="w-full bg-cyan-900/50 hover:bg-cyan-800/80 border border-cyan-500 text-cyan-100 font-mono uppercase tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all hover:shadow-[0_0_25px_rgba(6,182,212,0.6)] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+              >
+                {isSending 
+                  ? "Transmitting..." 
+                  : cooldownRemaining > 0 
+                    ? `Cooldown: ${cooldownRemaining}s` 
+                    : "Transmit"
+                }
               </Button>
             </div>
           </form>
