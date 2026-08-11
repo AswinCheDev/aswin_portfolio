@@ -39,9 +39,9 @@ export const Contact = () => {
       {/* Spacer to push cards to the bottom */}
       <div className="flex-1 pointer-events-none"></div>
 
-      {/* Side Contact Cards (Vertical Layout on top left) */}
-      <div className="absolute top-24 left-4 md:left-8 z-30 pointer-events-auto">
-        <div className="flex flex-col gap-3 md:gap-4">
+      {/* Side Contact Cards (Horizontal Layout on top for mobile, Vertical on left for desktop) */}
+      <div className="absolute top-20 md:top-24 left-2 right-2 md:left-8 md:right-auto z-30 pointer-events-auto">
+        <div className="flex flex-row flex-wrap md:flex-col justify-center md:justify-start gap-2 md:gap-4">
           {contactInfo.map((info, index) => (
             <motion.a
               key={info.label}
@@ -55,14 +55,14 @@ export const Contact = () => {
                 x: { type: "spring", stiffness: 100, delay: index * 0.1 }
               }}
               whileHover={{ x: 5, scale: 1.02 }}
-              className="flex items-center gap-3 p-3 md:p-4 bg-cyan-950/[0.35] hover:bg-cyan-950/70 backdrop-blur-[2px] hover:backdrop-blur-md border border-cyan-400/20 hover:border-cyan-400/40 rounded-2xl transition-all duration-500 w-full min-w-[200px] group shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)]"
+              className="flex items-center justify-center md:justify-start gap-2 md:gap-3 p-2 md:p-4 bg-cyan-950/[0.35] hover:bg-cyan-950/70 backdrop-blur-[2px] hover:backdrop-blur-md border border-cyan-400/20 hover:border-cyan-400/40 rounded-xl md:rounded-2xl transition-all duration-500 flex-1 md:flex-none md:w-full md:min-w-[200px] group shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)]"
             >
-              <div className="text-cyan-500/50 group-hover:text-cyan-300 transition-colors bg-cyan-900/20 group-hover:bg-cyan-800/40 border border-cyan-500/20 group-hover:border-cyan-400/50 p-2 rounded-lg">
-                <info.icon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+              <div className="text-cyan-500/50 group-hover:text-cyan-300 transition-colors bg-cyan-900/20 group-hover:bg-cyan-800/40 border border-cyan-500/20 group-hover:border-cyan-400/50 p-2 rounded-lg shrink-0">
+                <info.icon className="w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
               </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] md:text-xs text-cyan-300 font-mono uppercase tracking-wider">{info.label}</span>
-                <span className="text-xs md:text-sm text-cyan-50 font-medium">{info.value}</span>
+              <div className="flex flex-col text-left">
+                <span className="text-[8px] md:text-xs text-cyan-300 font-mono uppercase tracking-wider">{info.label}</span>
+                <span className="text-[10px] md:text-sm text-cyan-50 font-medium whitespace-nowrap">{info.value}</span>
               </div>
             </motion.a>
           ))}

@@ -137,13 +137,16 @@ void main() {
 const FastTerrain = () => {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const meshRef = useRef<THREE.Mesh>(null);
+  const timeRef = useRef(0);
 
   // Extend further back to allow fast scrolling without seeing the edge immediately. Increased resolution for smoother dunes.
   const planeGeometry = useMemo(() => new THREE.PlaneGeometry(400, 400, 256, 256), []);
 
-  useFrame(({ clock }) => {
+  useFrame((_, delta) => {
     if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = clock.getElapsedTime();
+      // Use accumulated delta so animation starts fresh when component becomes visible
+      timeRef.current += delta;
+      materialRef.current.uniforms.uTime.value = timeRef.current;
     }
   });
 
@@ -312,8 +315,8 @@ export const PodraceBackground = ({ isActive = true }: { isActive?: boolean }) =
       <Canvas 
         className="absolute inset-0" 
         camera={{ position: [0, 2, 10], fov: 60 }} 
+        frameloop={isActive ? 'always' : 'demand'}
         gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0 }}
-        frameloop={isActive ? "always" : "never"}
       >
         <TwinSunsSkybox />
         <FastTerrain />

@@ -3,27 +3,24 @@ export class AudioManager {
   private static enabled = false;
 
   public static init() {
-    if (!this.ctx) {
-      try {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-        this.ctx = new AudioContextClass();
-        this.enabled = true;
-        
-        // Browsers block autoplay until user interaction. Resume context on first click/keydown.
-        const resumeAudio = () => {
-          if (this.ctx?.state === 'suspended') {
-            this.ctx.resume();
-          }
-        };
-        window.addEventListener('click', resumeAudio, { once: true });
-        window.addEventListener('keydown', resumeAudio, { once: true });
-        
-      } catch (e) {
-        console.warn('Web Audio API not supported', e);
+    if (typeof window === 'undefined') return;
+
+    const setupContext = () => {
+      if (!this.ctx) {
+        try {
+          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+          this.ctx = new AudioContextClass();
+          this.enabled = true;
+        } catch (e) {
+          console.warn('Web Audio API not supported', e);
+        }
+      } else if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
       }
-    } else if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
+    };
+
+    window.addEventListener('click', setupContext, { once: true });
+    window.addEventListener('keydown', setupContext, { once: true });
   }
 
   public static playBoot() {
@@ -33,45 +30,52 @@ export class AudioManager {
 
   public static playShoot() {
     if (!this.enabled || !this.ctx) return;
+    if (this.ctx.state === 'suspended') this.ctx.resume();
     
     const osc = this.ctx.createOscillator();
     const gainNode = this.ctx.createGain();
     
+    // Star Wars Blaster "Pew" Effect
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(880, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(220, this.ctx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(1200, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.2);
     
-    gainNode.gain.setValueAtTime(0.1, this.ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+    gainNode.gain.setValueAtTime(0.4, this.ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.2);
     
     osc.connect(gainNode);
     gainNode.connect(this.ctx.destination);
     
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.1);
+    osc.stop(this.ctx.currentTime + 0.2);
   }
 
   public static playExplosion() {
     if (!this.enabled || !this.ctx) return;
+    if (this.ctx.state === 'suspended') this.ctx.resume();
     
-    const bufferSize = this.ctx.sampleRate * 0.1; // 100ms
+    const duration = 0.5;
+    const bufferSize = this.ctx.sampleRate * duration;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
     
     for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1; // White noise
+      // White noise with exponential decay
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-i / bufferSize * 5);
     }
     
     const noise = this.ctx.createBufferSource();
     noise.buffer = buffer;
     
+    // Add a lowpass filter to make it sound "boomy" and muffled
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 1000;
+    filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + duration);
     
     const gainNode = this.ctx.createGain();
-    gainNode.gain.setValueAtTime(0.2, this.ctx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+    gainNode.gain.setValueAtTime(0.8, this.ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + duration);
     
     noise.connect(filter);
     filter.connect(gainNode);

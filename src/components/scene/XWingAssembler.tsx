@@ -22,7 +22,8 @@ export function XWingAssembler({ equippedIds, modules, animatingBlocks, onAnimat
 
   const isMobile = viewport.width < viewport.height;
   const groupX = isMobile ? 0 : (viewport.width / 4) * 0.85;
-  const groupY = isMobile ? -(viewport.height / 4) : -2;
+  const groupY = isMobile ? -(viewport.height / 2.5) : -2;
+  const modelScale = isMobile ? 0.025 : 0.035;
 
   // Extract all meshes and assign original materials so we can swap them for the glow effect
   const allMeshes = useMemo(() => {
@@ -204,7 +205,7 @@ export function XWingAssembler({ equippedIds, modules, animatingBlocks, onAnimat
   });
 
   return (
-    <group ref={group} scale={[0.035, 0.035, 0.035]} position={[groupX, groupY, 0]}>
+    <group ref={group} scale={[modelScale, modelScale, modelScale]} position={[groupX, groupY, 0]}>
       <primitive 
         object={scene} 
         onPointerDown={(e: any) => {

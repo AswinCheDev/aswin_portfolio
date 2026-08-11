@@ -6,8 +6,8 @@ import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphe
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 
-import cardGLB from '@/assets/lanyard/card.glb';
-import lanyard from '@/assets/lanyard/lanyard.png';
+const cardGLB = '/assests/lanyard/card.glb';
+const lanyard = '/assests/lanyard/lanyard.png';
 import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
@@ -55,7 +55,7 @@ export default function Lanyard({
       >
         <ambientLight intensity={Math.PI} />
         <Suspense fallback={null}>
-          <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+          <Physics gravity={gravity} timeStep={1 / 60}>
             <Band
               isMobile={isMobile}
               frontImage={frontImage}

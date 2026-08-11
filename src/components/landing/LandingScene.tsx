@@ -6,7 +6,7 @@ import { StarField } from './scene/StarField';
 import { EnemyShip } from './scene/EnemyShip';
 import { LaserBolt } from './scene/LaserBolt';
 import { Explosion3D } from './scene/Explosion3D';
-import { PlayerShip } from './scene/PlayerShip';
+import { PlayerShip, playerShipState } from './scene/PlayerShip';
 import { AudioManager } from './managers/AudioManager';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
@@ -18,18 +18,39 @@ const ShootController = ({ enemies, setEnemies, setExplosions, onKill, lasers, s
   const skills = useRef(['TypeScript +1', 'React +1', 'Python +1', 'AI/ML +1', 'System Design +1', 'Node.js +1', 'AWS +1', 'Docker +1', 'GraphQL +1', 'SQL +1']);
 
   const handleFire = useCallback(() => {
-    if (lasers.length >= 3) return;
+    if (lasers.length >= 20) return; // Allow up to 10 rapid-fire shots (20 lasers)
     
     // Spawn lasers from the X-Wing's approximate wing positions
     const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
     vector.unproject(camera);
     const dir = vector.sub(camera.position).normalize();
-    const distance = -camera.position.z / dir.z;
-    const target = camera.position.clone().add(dir.multiplyScalar(distance));
+    const distance = 200; // Target point far in the distance so lasers fire parallel to the camera ray
+    const target = camera.position.clone().add(dir.clone().multiplyScalar(distance));
     
-    // Spawn from the bottom corners of the screen (approximate wing positions)
-    const leftStart = new THREE.Vector3(-2, -2, 7);
-    const rightStart = new THREE.Vector3(2, -2, 7);
+    // Default fallback starting points
+    let leftStart = new THREE.Vector3(-2, -2, 7);
+    let rightStart = new THREE.Vector3(2, -2, 7);
+    
+    // Use the exact real-time position of the player ship
+    const shipPos = playerShipState.position.clone();
+    
+    // Calculate wing offsets based on camera orientation
+    const right = new THREE.Vector3(1, 0, 0).applyQuaternion(camera.quaternion);
+    const up = new THREE.Vector3(0, 1, 0).applyQuaternion(camera.quaternion);
+    
+    const wingSpreadX = 0.8;
+    const wingSpreadY = -0.1;
+    const forwardOffset = 1.0; // Push forward to the cannon tips
+    
+    leftStart = shipPos.clone()
+      .add(right.clone().multiplyScalar(-wingSpreadX))
+      .add(up.clone().multiplyScalar(wingSpreadY))
+      .add(dir.clone().multiplyScalar(forwardOffset));
+      
+    rightStart = shipPos.clone()
+      .add(right.clone().multiplyScalar(wingSpreadX))
+      .add(up.clone().multiplyScalar(wingSpreadY))
+      .add(dir.clone().multiplyScalar(forwardOffset));
     
     // Fire twin lasers
     const newLaser1 = {
@@ -137,12 +158,16 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
     AudioManager.playBoot();
 
     const colors = ['#64FFDA', '#FF6B00']; // Teal and Orange
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const xSpread = isMobile ? 20 : 40; // Tighter horizontal spread on mobile
+    const ySpread = isMobile ? 35 : 20; // Taller vertical spread on mobile
+
     const initialEnemies = Array.from({ length: totalBugs }).map((_, i) => ({
       id: `enemy-${i}`,
       position: [
-        (Math.random() - 0.5) * 40, // x spread
-        (Math.random() - 0.5) * 20, // y spread
-        (Math.random() - 0.5) * 10 - 15 // z spread (in front of camera)
+        (Math.random() - 0.5) * xSpread,
+        (Math.random() - 0.5) * ySpread,
+        (Math.random() - 0.5) * 10 - 15
       ],
       color: colors[i % colors.length]
     }));
@@ -297,29 +322,10 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
             </Canvas>
           </div>
 
-          {/* Moving Targeting Reticle */}
-          <div 
-            className="fixed flex items-center justify-center pointer-events-none z-10 opacity-60"
-            style={{ 
-              left: mousePos.x, 
-              top: mousePos.y,
-              transform: 'translate(-50%, -50%)',
-              width: '256px',
-              height: '256px'
-            }}
-          >
-            <div className="absolute inset-0 border border-[#ff3333] rounded-full animate-[spin_10s_linear_infinite]">
-              <div className="absolute top-0 left-1/2 w-4 h-4 border-l-2 border-[#ff3333] -translate-x-1/2 -translate-y-1/2" />
-              <div className="absolute bottom-0 left-1/2 w-4 h-4 border-r-2 border-[#ff3333] -translate-x-1/2 translate-y-1/2" />
-              <div className="absolute left-0 top-1/2 w-4 h-4 border-b-2 border-[#ff3333] -translate-x-1/2 -translate-y-1/2" />
-              <div className="absolute right-0 top-1/2 w-4 h-4 border-t-2 border-[#ff3333] translate-x-1/2 -translate-y-1/2" />
-            </div>
-            <div className="absolute w-32 h-32 border-2 border-[#ff3333] rounded-full opacity-50" />
-            <div className="absolute w-2 h-2 bg-[#ff3333] rounded-full animate-pulse" />
-          </div>
+
 
           {/* Top Right Pilot Identity HUD */}
-          <div className="fixed top-8 right-8 flex flex-col items-end pointer-events-none z-20 select-none">
+          <div className="hidden md:flex fixed top-8 right-8 flex-col items-end pointer-events-none z-20 select-none">
             <motion.div 
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -338,7 +344,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
           {/* HUD Overlay */}
           <div className="fixed inset-0 z-20 pointer-events-none">
             {/* Top Left HUD (Targeting Computer) */}
-            <div className={`absolute top-8 left-8 w-72 md:w-80 p-6 bg-[#000000]/60 backdrop-blur-sm targeting-brackets
+            <div className={`absolute top-4 left-4 md:top-8 md:left-8 w-64 md:w-80 p-4 md:p-6 bg-[#000000]/60 backdrop-blur-sm targeting-brackets
               ${isWarning ? 'shadow-[0_0_15px_rgba(239,68,68,0.3)]' : 'shadow-[0_0_15px_rgba(255,51,51,0.1)]'}`}>
               
               <div className="flex flex-col space-y-4 targeting-text text-sm tracking-widest">
@@ -354,7 +360,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
                     <span>DISTANCE</span>
                     <span className="targeting-amber">{Math.floor(((totalBugs - bugsRemaining) / totalBugs) * 1000)}m</span>
                   </div>
-                  <div className="w-48 h-3 bg-black border border-[#ff3333]/50 relative overflow-hidden">
+                  <div className="w-full h-3 bg-black border border-[#ff3333]/50 relative overflow-hidden">
                     <motion.div 
                       className="absolute top-0 left-0 h-full bg-[#ff3333]"
                       initial={{ width: 0 }}
@@ -382,7 +388,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
                 onClick={handleSkip}
                 className="absolute bottom-12 left-1/2 -translate-x-1/2 group pointer-events-auto cursor-pointer"
               >
-                <div className="relative px-12 py-3 bg-black/60 backdrop-blur-sm border-2 border-[#ffb700]/70 overflow-hidden transition-all duration-300 hover:bg-[#ffb700]/20 hover:border-[#ffe81f] hover:shadow-[0_0_20px_rgba(255,183,0,0.5)]">
+                <div className="relative px-6 md:px-12 py-3 bg-black/60 backdrop-blur-sm border-2 border-[#ffb700]/70 overflow-hidden transition-all duration-300 hover:bg-[#ffb700]/20 hover:border-[#ffe81f] hover:shadow-[0_0_20px_rgba(255,183,0,0.5)]">
                   <span className="relative z-10 targeting-amber font-bold text-lg tracking-[0.2em] transition-colors group-hover:text-[#ffe81f]">
                     JUMP TO HYPERSPACE
                   </span>
@@ -401,12 +407,12 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
                   <motion.div 
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="relative px-16 py-8 border-2 border-[#ff3333] bg-[#000000]/80 backdrop-blur-sm shadow-[0_0_50px_rgba(255,51,51,0.4)]"
+                    className="relative px-6 md:px-16 py-8 border-2 border-[#ff3333] bg-[#000000]/80 backdrop-blur-sm shadow-[0_0_50px_rgba(255,51,51,0.4)] w-[90%] md:w-auto"
                   >
                     <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-[#ffb700]" />
                     <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-[#ffb700]" />
                     
-                    <h1 className="text-3xl md:text-5xl text-[#ffb700] mb-8 font-bold text-center uppercase sci-fi-title" style={{ textShadow: "0 0 20px rgba(255, 183, 0, 0.4)" }}>
+                    <h1 className="text-2xl md:text-5xl text-[#ffb700] mb-6 md:mb-8 font-bold text-center uppercase sci-fi-title" style={{ textShadow: "0 0 20px rgba(255, 183, 0, 0.4)" }}>
                       THE FORCE IS STRONG
                     </h1>
                     

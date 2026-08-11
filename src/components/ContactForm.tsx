@@ -44,13 +44,12 @@ export function ContactForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const serviceID = "service_spbokp9";
-    const templateID = "template_3ypmksw";
-    const publicKey = "P5zVPigm2RZR1dHXh";
+    const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "";
+    const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "";
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "";
 
     emailjs.send(serviceID, templateID, values, publicKey)
       .then((response) => {
-        console.log("SUCCESS!", response.status, response.text);
         toast({
           title: "Transmission Successful",
           description: "Your message has been beamed across the galaxy.",
@@ -58,7 +57,6 @@ export function ContactForm() {
         form.reset();
       })
       .catch((err) => {
-        console.error("FAILED...", err);
         toast({
           title: "Transmission Failed",
           description: "Interference detected. Please try again.",
@@ -68,7 +66,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="relative p-8 md:p-12 bg-cyan-950/[0.35] hover:bg-cyan-950/70 focus-within:bg-cyan-950/80 backdrop-blur-[2px] hover:backdrop-blur-md focus-within:backdrop-blur-md transition-all duration-500 rounded-2xl overflow-hidden border border-cyan-400/20 hover:border-cyan-400/40 focus-within:border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)] focus-within:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)] group animate-pulse-slow focus-within:animate-none">
+    <div className="relative p-4 md:p-12 bg-cyan-950/[0.35] hover:bg-cyan-950/70 focus-within:bg-cyan-950/80 backdrop-blur-[2px] hover:backdrop-blur-md focus-within:backdrop-blur-md transition-all duration-500 rounded-2xl overflow-hidden border border-cyan-400/20 hover:border-cyan-400/40 focus-within:border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)] focus-within:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)] group animate-pulse-slow focus-within:animate-none">
       {/* Holographic Scanline Overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(6,182,212,0.15)_50%)] bg-[length:100%_4px] pointer-events-none opacity-50 mix-blend-screen" />
       <div className="absolute inset-0 bg-gradient-to-b from-cyan-400/10 via-transparent to-cyan-900/20 pointer-events-none" />
@@ -76,7 +74,7 @@ export function ContactForm() {
 
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 relative z-10">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 md:space-y-4 relative z-10">
             <FormField
               control={form.control}
               name="fullName"
@@ -125,7 +123,7 @@ export function ContactForm() {
                   <FormControl>
                     <Textarea
                       placeholder="Your message"
-                      className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 min-h-[100px] resize-none !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]"
+                      className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 min-h-[60px] md:min-h-[100px] resize-none !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]"
                       {...field}
                     />
                   </FormControl>

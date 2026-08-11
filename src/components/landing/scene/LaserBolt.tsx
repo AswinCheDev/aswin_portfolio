@@ -12,7 +12,7 @@ interface LaserBoltProps {
 export const LaserBolt = ({ id, start, target, onDespawn }: LaserBoltProps) => {
   const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.Mesh>(null);
-  const speed = 150; // units per second
+  const speed = 120; // Slightly slower so they are visible on screen longer
   
   // Calculate direction
   const direction = target.clone().sub(start).normalize();
@@ -37,12 +37,13 @@ export const LaserBolt = ({ id, start, target, onDespawn }: LaserBoltProps) => {
 
   return (
     <group ref={groupRef} position={start}>
-      <mesh ref={meshRef} rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[0.08, 0.08, 8, 8]} />
+      {/* Shift cylinder forward by half its length so the tail is exactly at 'start' */}
+      <mesh ref={meshRef} rotation={[Math.PI / 2, 0, 0]} position={[0, 0, -2]}>
+        <cylinderGeometry args={[0.04, 0.04, 4, 8]} />
         <meshStandardMaterial 
-          color="#ffffff" 
+          color="#ff0000" 
           emissive="#ff0000" 
-          emissiveIntensity={3} 
+          emissiveIntensity={8} 
           toneMapped={false} 
         />
       </mesh>

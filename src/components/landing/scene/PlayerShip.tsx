@@ -7,6 +7,11 @@ interface PlayerShipProps {
   isHyperspace?: boolean;
 }
 
+export const playerShipState = {
+  position: new THREE.Vector3(),
+  rotation: new THREE.Euler(),
+};
+
 export const PlayerShip = ({ isHyperspace = false }: PlayerShipProps = {}) => {
   const groupRef = useRef<THREE.Group>(null);
   const { mouse, camera } = useThree();
@@ -41,14 +46,18 @@ export const PlayerShip = ({ isHyperspace = false }: PlayerShipProps = {}) => {
       
       // Keep base Y rotation neutral, ship points into the screen
       groupRef.current.rotation.y = Math.PI;
+
+      // Update shared state for other components to read
+      playerShipState.position.copy(groupRef.current.position);
+      playerShipState.rotation.copy(groupRef.current.rotation);
     }
   });
 
-  const { scene } = useGLTF('/assests/Models/xfighter1.glb');
+  const { scene } = useGLTF('/assests/Models/x-wing_t-65.glb');
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   return (
-    <group ref={groupRef} scale={[0.15, 0.15, 0.15]}>
+    <group ref={groupRef} scale={[0.15, 0.15, 0.15]} name="player-ship">
       {/* 
         The ship model natively faces +Z. 
         Since the groupRef has rotation.y = Math.PI, the group faces -Z.
@@ -59,4 +68,4 @@ export const PlayerShip = ({ isHyperspace = false }: PlayerShipProps = {}) => {
   );
 };
 
-useGLTF.preload('/assests/Models/xfighter1.glb');
+useGLTF.preload('/assests/Models/x-wing_t-65.glb');

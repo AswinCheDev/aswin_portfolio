@@ -142,6 +142,7 @@ const IconUser = ({ className, size }: { className?: string, size?: number | str
 );
 
 export const Skills = () => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const [equippedIds, setEquippedIds] = useState<string[]>([]);
   const [animatingBlocks, setAnimatingBlocks] = useState<Record<string, DOMRect>>({});
   const [popups, setPopups] = useState<{ id: string; text: string; type: 'gain' | 'loss' }[]>([]);
@@ -231,7 +232,7 @@ export const Skills = () => {
           glowColor="#10B981"
         />
       </div>
-      <R2D2 isFullScore={equippedModules.length === MODULES.length} />
+      {!isMobile && <R2D2 isFullScore={equippedModules.length === MODULES.length} />}
 
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/60 uppercase z-20 font-mono pointer-events-none">
         Dagobah
@@ -243,7 +244,7 @@ export const Skills = () => {
       >
         {/* Absolute Full-Screen Canvas behind the content */}
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto">
-          <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
+          <Canvas camera={{ position: [0, isMobile ? 8 : 0, isMobile ? 35 : 15], fov: 45 }}>
             <ambientLight intensity={1.5} />
             <directionalLight position={[10, 10, 10]} intensity={1.5} />
             <directionalLight position={[-10, 10, -10]} intensity={0.5} />
@@ -265,13 +266,13 @@ export const Skills = () => {
           </Canvas>
         </div>
 
-        <div className="flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative pt-28 lg:pt-10 pb-8 px-6 md:px-10 lg:px-16 w-full h-full z-10 pointer-events-none">
+        <div className="flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative pt-16 lg:pt-10 pb-8 px-6 md:px-10 lg:px-16 w-full h-full z-10 pointer-events-none">
           
           <div className="flex-1 w-full max-w-[580px] flex flex-col justify-center items-start pointer-events-auto">
             
             <div className="mb-8">
               <div className="flex flex-col lg:flex-row items-start lg:items-end gap-4 lg:gap-6 justify-start mb-2">
-                <h2 className="text-4xl md:text-5xl font-bold display-heading uppercase text-white">
+                <h2 className="text-3xl md:text-5xl font-bold display-heading uppercase text-white">
                   Tech Stack
                 </h2>
                 <Dialog>
@@ -327,7 +328,7 @@ export const Skills = () => {
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-start gap-4 relative z-20 min-h-[300px] content-start pt-12">
+            <div className="flex flex-wrap justify-start gap-2 md:gap-4 relative z-20 min-h-[180px] md:min-h-[300px] content-start pt-12">
               {MODULES.map((module, i) => {
                 const isEquipped = equippedIds.includes(module.id);
                 const startRect = animatingBlocks[module.id];
@@ -389,9 +390,9 @@ export const Skills = () => {
             </div>
 
             {/* Display XP Score over the canvas */}
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl py-2.5 px-6 min-w-[280px] flex items-center gap-5 shadow-[0_8px_32px_rgba(255,255,255,0.05)] z-20 transition-all pointer-events-auto">
-              <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner shrink-0">
-                <IconUser className="w-7 h-7 text-white/90 drop-shadow-md" />
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl py-2 px-4 md:py-2.5 md:px-6 min-w-[240px] md:min-w-[280px] flex items-center gap-3 md:gap-5 shadow-[0_8px_32px_rgba(255,255,255,0.05)] z-20 transition-all pointer-events-auto">
+              <div className="w-12 h-12 rounded-xl shrink-0 overflow-hidden shadow-lg border border-white/10">
+                <img src="/favicons/apple-touch-icon.png" alt="Profile" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-[150px]">
                 <h3 className="font-sans font-bold text-white/90 text-[16px] tracking-wide whitespace-nowrap drop-shadow-md">Aswin Chettri</h3>

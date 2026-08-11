@@ -60,6 +60,7 @@ const panelFragmentShader = `
 `;
 
 export const HoloFormPanel = ({ position = [0, 0, 0] }: { position?: [number, number, number] }) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
 
@@ -77,7 +78,8 @@ export const HoloFormPanel = ({ position = [0, 0, 0] }: { position?: [number, nu
     }
     // Antigravity floating effect
     if (groupRef.current) {
-      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime) * 0.2;
+      const baseY = isMobile ? position[1] - 1.5 : position[1];
+      groupRef.current.position.y = baseY + Math.sin(state.clock.elapsedTime) * 0.2;
     }
   });
 
@@ -90,7 +92,7 @@ export const HoloFormPanel = ({ position = [0, 0, 0] }: { position?: [number, nu
         transform
         position={[0, 0, 0]}
         style={{ 
-          width: '800px', // Fixed width to match the 3D plane aspect ratio
+          width: isMobile ? '340px' : '800px', // Fixed width to match the 3D plane aspect ratio
           // Remove pointer-events from parent container to allow clicking inside
         }}
       >
