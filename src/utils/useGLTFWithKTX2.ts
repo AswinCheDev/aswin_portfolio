@@ -29,3 +29,15 @@ export function useGLTFWithKTX2(url: string) {
 
   return useGLTF(url, true, true, extendLoader);
 }
+
+useGLTFWithKTX2.preload = (url: string) => {
+  if (!ktx2Loader) {
+    ktx2Loader = new KTX2Loader().setTranscoderPath('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r167/examples/jsm/libs/basis/');
+  }
+  const extendLoader = (loader: any) => {
+    if (ktx2Loader) {
+      loader.setKTX2Loader(ktx2Loader);
+    }
+  };
+  useGLTF.preload(url, true, true, extendLoader);
+};

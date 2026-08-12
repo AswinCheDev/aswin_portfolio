@@ -18,7 +18,14 @@ const Contact = lazy(() => import("@/components/Contact").then(m => ({ default: 
 const LandingScene = lazy(() => import("./components/landing/LandingScene").then(m => ({ default: m.LandingScene })));
 const GalaxyIntro = lazy(() => import("./components/landing/GalaxyIntro").then(m => ({ default: m.GalaxyIntro })));
 import { motion, AnimatePresence } from "framer-motion";
+import { Loader } from "@react-three/drei";
+import { useGLTFWithKTX2 } from "./utils/useGLTFWithKTX2";
 const queryClient = new QueryClient();
+
+// Preload heavy models immediately in the background
+useGLTFWithKTX2.preload('/assests/Models/30654_-_x-wing_starfighter.glb');
+useGLTFWithKTX2.preload('/assests/Models/x-wing-t-65.glb');
+useGLTFWithKTX2.preload('/assests/Models/r2-d2-animated.glb');
 
 const App = () => {
   const [stage, setStage] = useState<'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('galaxy');
@@ -44,6 +51,12 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <Loader 
+          containerStyles={{ zIndex: 9999, backgroundColor: '#0b0c10' }} 
+          innerStyles={{ width: '300px' }} 
+          barStyles={{ backgroundColor: '#22d3ee' }} 
+          dataInterpolation={(p) => `Loading hyperspace routing... ${p.toFixed(0)}%`}
+        />
         <Toaster />
         <Sonner />
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
