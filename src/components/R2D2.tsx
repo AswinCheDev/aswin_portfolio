@@ -1,8 +1,9 @@
-import React, { Suspense, useRef, useEffect } from 'react';
+import React, { Suspense, useRef, useEffect, useContext } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useAnimations } from '@react-three/drei';
 import { useGLTFWithKTX2 } from '../utils/useGLTFWithKTX2';
 import * as THREE from 'three';
+import { StageContext } from '@/App';
 
 function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
   const group = useRef<THREE.Group>(null);
@@ -129,12 +130,10 @@ function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
 
   return (
     <group ref={group} dispose={null} position={[0, defaultBottomY, 0]} scale={[0.72, 0.72, 0.72]}>
-      <primitive object={scene} />
+      <primitive object={scene} dispose={null} />
     </group>
   );
 }
-import { StageContext } from '@/App';
-import { useContext } from 'react';
 
 export default function R2D2({ isFullScore }: { isFullScore?: boolean }) {
   const stage = useContext(StageContext);

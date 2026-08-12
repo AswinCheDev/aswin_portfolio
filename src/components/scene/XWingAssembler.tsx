@@ -208,6 +208,7 @@ export function XWingAssembler({ equippedIds, modules, animatingBlocks, onAnimat
     <group ref={group} scale={[modelScale, modelScale, modelScale]} position={[groupX, groupY, 0]}>
       <primitive 
         object={scene} 
+        dispose={null}
         onPointerDown={(e: any) => {
           e.stopPropagation();
           const mesh = e.object;

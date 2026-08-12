@@ -87,7 +87,7 @@ export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, n
   return (
     <group ref={groupRef} position={position}>
       {/* Projector Base Model */}
-      <primitive object={scene} scale={2} position={[0, -0.5, 0]} />
+      <primitive object={scene} scale={2} position={[0, -0.5, 0]} dispose={null} />
 
       {/* Volumetric Light Cone */}
       <mesh position={[0, 2.5, 0]}>

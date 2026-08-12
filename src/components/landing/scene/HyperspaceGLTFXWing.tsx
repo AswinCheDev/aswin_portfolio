@@ -62,7 +62,7 @@ export const HyperspaceGLTFXWing = () => {
     <group ref={groupRef}>
       <Center>
         <group rotation={[0, Math.PI, 0]}>
-          <primitive object={scene} scale={[0.3, 0.3, 0.3]} />
+          <primitive object={scene} scale={[0.3, 0.3, 0.3]} dispose={null} />
         </group>
       </Center>
     </group>

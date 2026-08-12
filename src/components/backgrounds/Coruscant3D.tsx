@@ -4,6 +4,7 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { StageContext } from "@/App";
+import { PageTransitionContext } from "@/pages/Index";
 import { HoloProjector } from "./HoloProjector";
 import { HoloFormPanel } from "./HoloFormPanel";
 
@@ -121,7 +122,8 @@ const Scene = () => {
 
 export const Coruscant3D = () => {
   const stage = useContext(StageContext);
-  const shouldRenderCanvas = stage === 'portfolio';
+  const isTransitioning = useContext(PageTransitionContext);
+  const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
 
   return (
     <div className="absolute inset-0 w-full h-full z-0 bg-[#020617]">

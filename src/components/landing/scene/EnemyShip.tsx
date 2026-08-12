@@ -46,7 +46,7 @@ export const EnemyShip = ({ id, position, color, isLast }: EnemyShipProps) => {
         Usually models face +Z, but lookAt makes +Z point to target.
       */}
       <group>
-        <primitive object={clonedScene} />
+        <primitive object={clonedScene} dispose={null} />
       </group>
     </group>
   );

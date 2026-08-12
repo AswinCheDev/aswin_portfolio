@@ -311,11 +311,13 @@ const SpeedLines = () => {
 // ----------------------------------------------------------------------
 import { useContext } from 'react';
 import { StageContext } from '@/App';
+import { PageTransitionContext } from '@/pages/Index';
 
 export const PodraceBackground = ({ isActive = true }: { isActive?: boolean }) => {
   const [contextKey, setContextKey] = useState(0);
   const stage = useContext(StageContext);
-  const shouldRenderCanvas = stage === 'portfolio';
+  const isTransitioning = useContext(PageTransitionContext);
+  const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#ccaa88] pointer-events-none">

@@ -1,30 +1,14 @@
-import { useState, useEffect, useRef, Suspense } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { StarField } from './landing/scene/StarField';
 import { HyperspaceGLTFXWing } from './landing/scene/HyperspaceGLTFXWing';
 
-export const PageTransition = () => {
-  const location = useLocation();
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const isFirstRender = useRef(true);
+interface PageTransitionProps {
+  isTransitioning?: boolean;
+}
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-
-    setIsTransitioning(true);
-    
-    // Keep hyperspace effect for 2.5 seconds, acting as a load balancer/transition
-    const timer = setTimeout(() => {
-      setIsTransitioning(false);
-    }, 2500);
-    
-    return () => clearTimeout(timer);
-  }, [location.pathname]);
+export const PageTransition = ({ isTransitioning = false }: PageTransitionProps) => {
 
   return (
     <AnimatePresence>

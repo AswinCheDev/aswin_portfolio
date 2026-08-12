@@ -26,6 +26,7 @@ const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
 import { StageContext } from '@/App';
+import { PageTransitionContext } from '@/pages/Index';
 import { useContext } from 'react';
 
 export default function Lanyard({
@@ -43,7 +44,8 @@ export default function Lanyard({
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
   const stage = useContext(StageContext);
-  const shouldRenderCanvas = stage === 'portfolio';
+  const isTransitioning = useContext(PageTransitionContext);
+  const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);

@@ -63,7 +63,7 @@ export const PlayerShip = ({ isHyperspace = false }: PlayerShipProps = {}) => {
         Since the groupRef has rotation.y = Math.PI, the group faces -Z.
         So we don't need additional rotation here.
       */}
-      <primitive object={clonedScene} />
+      <primitive object={clonedScene} dispose={null} />
     </group>
   );
 };

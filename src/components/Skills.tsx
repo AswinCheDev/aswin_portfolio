@@ -1,9 +1,9 @@
-"use client";
-
-import React, { useState, useRef, useEffect, useMemo, Suspense } from "react";
+import React, { memo, useMemo, useState, useRef, useEffect, Suspense, useContext, lazy } from 'react';
 import { motion, useAnimation, AnimatePresence, useMotionValue, useMotionTemplate, MotionValue } from "framer-motion";
 import DotField from "./backgrounds/DotField";
 import R2D2 from "./R2D2";
+import { StageContext } from "@/App";
+import { PageTransitionContext } from "@/pages/Index";
 import { XWingPieceThumbnail } from './scene/XWingPieceThumbnail';
 import StackIcon from "tech-stack-icons";
 import {
@@ -20,10 +20,10 @@ import {
   SiMysql, SiRedis, SiPytorch, SiScikitlearn, SiPandas, SiNumpy,
   SiGit, SiGithub, SiLinux, SiPostman
 } from "react-icons/si";
-import { Canvas } from '@react-three/fiber';
-import { XWingAssembler } from './scene/XWingAssembler';
 import { FaJava } from "react-icons/fa";
 import { Search, Clock, Mail, Music, Network, Zap, Brain, BarChart, Cloud, Shield, Bot, TestTube } from "lucide-react";
+
+const XWingAssembler = lazy(() => import('./scene/XWingAssembler').then(m => ({ default: m.XWingAssembler })));
 
 const TECH_CATEGORIES = [
   {
@@ -141,9 +141,6 @@ const IconUser = ({ className, size }: { className?: string, size?: number | str
   <svg xmlns="http://www.w3.org/2000/svg" width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
 );
 
-import { useContext } from 'react';
-import { StageContext } from '@/App';
-
 export const Skills = () => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const [equippedIds, setEquippedIds] = useState<string[]>([]);
@@ -151,7 +148,8 @@ export const Skills = () => {
   const [popups, setPopups] = useState<{ id: string; text: string; type: 'gain' | 'loss' }[]>([]);
   
   const stage = useContext(StageContext);
-  const shouldRenderCanvas = stage === 'portfolio';
+  const isTransitioning = useContext(PageTransitionContext);
+  const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
 
   const triggerXpPop = (text: string, type: 'gain' | 'loss' = 'gain') => {
     const id = Math.random().toString(36).substring(2, 9);
