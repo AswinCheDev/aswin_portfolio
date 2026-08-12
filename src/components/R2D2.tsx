@@ -133,17 +133,25 @@ function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
     </group>
   );
 }
+import { StageContext } from '@/App';
+import { useContext } from 'react';
+
 export default function R2D2({ isFullScore }: { isFullScore?: boolean }) {
+  const stage = useContext(StageContext);
+  const shouldRenderCanvas = stage === 'portfolio';
+
   return (
     <div className="absolute bottom-0 left-0 w-full h-full z-40 pointer-events-none">
-      <Canvas style={{ pointerEvents: 'none' }} camera={{ position: [0, 0, 8], fov: 45 }}>
-        <Suspense fallback={null}>
-          <ambientLight intensity={1.5} />
-          <directionalLight position={[10, 10, 10]} intensity={1.5} />
-          <directionalLight position={[-10, 10, -10]} intensity={0.5} />
-          <R2D2Model isFullScore={isFullScore} />
-        </Suspense>
-      </Canvas>
+      {shouldRenderCanvas && (
+        <Canvas style={{ pointerEvents: 'none' }} camera={{ position: [0, 0, 8], fov: 45 }}>
+          <Suspense fallback={null}>
+            <ambientLight intensity={1.5} />
+            <directionalLight position={[10, 10, 10]} intensity={1.5} />
+            <directionalLight position={[-10, 10, -10]} intensity={0.5} />
+            <R2D2Model isFullScore={isFullScore} />
+          </Suspense>
+        </Canvas>
+      )}
     </div>
   );
 }

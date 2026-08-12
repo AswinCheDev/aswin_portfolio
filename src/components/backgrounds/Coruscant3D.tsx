@@ -1,8 +1,9 @@
-import { useRef, useMemo, useEffect, Suspense } from "react";
+import { useRef, useMemo, useContext, useEffect, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useTexture } from "@react-three/drei";
 import * as THREE from "three";
+import { StageContext } from "@/App";
 import { HoloProjector } from "./HoloProjector";
 import { HoloFormPanel } from "./HoloFormPanel";
 
@@ -119,16 +120,21 @@ const Scene = () => {
 };
 
 export const Coruscant3D = () => {
+  const stage = useContext(StageContext);
+  const shouldRenderCanvas = stage === 'portfolio';
+
   return (
     <div className="absolute inset-0 w-full h-full z-0 bg-[#020617]">
-      <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
-        <Suspense fallback={null}>
-          <Scene />
-          <EffectComposer disableNormalPass={false}>
-            <Bloom luminanceThreshold={0.1} mipmapBlur intensity={1.5} />
-          </EffectComposer>
-        </Suspense>
-      </Canvas>
+      {shouldRenderCanvas && (
+        <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
+          <Suspense fallback={null}>
+            <Scene />
+            <EffectComposer disableNormalPass={false}>
+              <Bloom luminanceThreshold={0.1} mipmapBlur intensity={1.5} />
+            </EffectComposer>
+          </Suspense>
+        </Canvas>
+      )}
     </div>
   );
 };

@@ -309,33 +309,40 @@ const SpeedLines = () => {
 // ----------------------------------------------------------------------
 // Main Component
 // ----------------------------------------------------------------------
+import { useContext } from 'react';
+import { StageContext } from '@/App';
+
 export const PodraceBackground = ({ isActive = true }: { isActive?: boolean }) => {
   const [contextKey, setContextKey] = useState(0);
+  const stage = useContext(StageContext);
+  const shouldRenderCanvas = stage === 'portfolio';
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden bg-[#ccaa88] pointer-events-none">
-      <Canvas 
-        key={`podrace-canvas-${contextKey}`}
-        className="absolute inset-0" 
-        camera={{ position: [0, 2, 10], fov: 60 }} 
-        frameloop={isActive ? 'always' : 'demand'}
-        gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, powerPreference: 'default' }}
-        onCreated={({ gl }) => {
-          const canvas = gl.domElement;
-          canvas.addEventListener('webglcontextlost', (e) => {
-            e.preventDefault();
-            console.warn("PodraceBackground: WebGL context lost. Attempting to restore...");
-          }, false);
-          canvas.addEventListener('webglcontextrestored', () => {
-            console.log("PodraceBackground: WebGL context restored.");
-            setContextKey(prev => prev + 1);
-          }, false);
-        }}
-      >
-        <TwinSunsSkybox />
-        <FastTerrain />
-        <SpeedLines />
-      </Canvas>
+      {shouldRenderCanvas && (
+        <Canvas 
+          key={`podrace-canvas-${contextKey}`}
+          className="absolute inset-0" 
+          camera={{ position: [0, 2, 10], fov: 60 }} 
+          frameloop={isActive ? 'always' : 'demand'}
+          gl={{ antialias: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.0, powerPreference: 'default' }}
+          onCreated={({ gl }) => {
+            const canvas = gl.domElement;
+            canvas.addEventListener('webglcontextlost', (e) => {
+              e.preventDefault();
+              console.warn("PodraceBackground: WebGL context lost. Attempting to restore...");
+            }, false);
+            canvas.addEventListener('webglcontextrestored', () => {
+              console.log("PodraceBackground: WebGL context restored.");
+              setContextKey(prev => prev + 1);
+            }, false);
+          }}
+        >
+          <TwinSunsSkybox />
+          <FastTerrain />
+          <SpeedLines />
+        </Canvas>
+      )}
       
       {/* Vignette overlay for cinematic contrast */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-transparent to-[#050201] opacity-60 pointer-events-none" />

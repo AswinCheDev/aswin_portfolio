@@ -141,12 +141,18 @@ const IconUser = ({ className, size }: { className?: string, size?: number | str
   <svg xmlns="http://www.w3.org/2000/svg" width={size || 24} height={size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
 );
 
+import { useContext } from 'react';
+import { StageContext } from '@/App';
+
 export const Skills = () => {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const [equippedIds, setEquippedIds] = useState<string[]>([]);
   const [animatingBlocks, setAnimatingBlocks] = useState<Record<string, DOMRect>>({});
   const [popups, setPopups] = useState<{ id: string; text: string; type: 'gain' | 'loss' }[]>([]);
   
+  const stage = useContext(StageContext);
+  const shouldRenderCanvas = stage === 'portfolio';
+
   const triggerXpPop = (text: string, type: 'gain' | 'loss' = 'gain') => {
     const id = Math.random().toString(36).substring(2, 9);
     setPopups(prev => [...prev, { id, text, type }]);
@@ -244,28 +250,30 @@ export const Skills = () => {
       >
         {/* Absolute Full-Screen Canvas behind the content */}
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto">
-          <Canvas camera={{ position: [0, isMobile ? 8 : 0, isMobile ? 35 : 15], fov: 45 }}>
-            <Suspense fallback={null}>
-            <ambientLight intensity={1.5} />
-            <directionalLight position={[10, 10, 10]} intensity={1.5} />
-            <directionalLight position={[-10, 10, -10]} intensity={0.5} />
-            <XWingAssembler 
-              equippedIds={equippedIds} 
-              modules={MODULES}
-              animatingBlocks={animatingBlocks}
-              onAnimationComplete={(id) => {
-                setAnimatingBlocks(prev => {
-                  const next = { ...prev };
-                  delete next[id];
-                  return next;
-                });
-              }}
-              mouseX={mouseX}
-              mouseY={mouseY}
-              onToggleEquip={handleToggleEquip}
-            />
-            </Suspense>
-          </Canvas>
+          {shouldRenderCanvas && (
+            <Canvas camera={{ position: [0, isMobile ? 8 : 0, isMobile ? 35 : 15], fov: 45 }}>
+              <Suspense fallback={null}>
+              <ambientLight intensity={1.5} />
+              <directionalLight position={[10, 10, 10]} intensity={1.5} />
+              <directionalLight position={[-10, 10, -10]} intensity={0.5} />
+              <XWingAssembler 
+                equippedIds={equippedIds} 
+                modules={MODULES}
+                animatingBlocks={animatingBlocks}
+                onAnimationComplete={(id) => {
+                  setAnimatingBlocks(prev => {
+                    const next = { ...prev };
+                    delete next[id];
+                    return next;
+                  });
+                }}
+                mouseX={mouseX}
+                mouseY={mouseY}
+                onToggleEquip={handleToggleEquip}
+              />
+              </Suspense>
+            </Canvas>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative pt-16 lg:pt-10 pb-8 px-6 md:px-10 lg:px-16 w-full h-full z-10 pointer-events-none">

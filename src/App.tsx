@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 import { lazy, Suspense } from "react";
 
@@ -20,7 +22,7 @@ const GalaxyIntro = lazy(() => import("./components/landing/GalaxyIntro").then(m
 import { motion, AnimatePresence } from "framer-motion";
 import { useGLTFWithKTX2 } from "./utils/useGLTFWithKTX2";
 import { LightsaberCursor } from "./components/LightsaberCursor";
-const queryClient = new QueryClient();
+export const StageContext = createContext<'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('galaxy');
 
 const App = () => {
   const [stage, setStage] = useState<'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('galaxy');
@@ -53,63 +55,72 @@ const App = () => {
   }, [stage]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          {/* Black background wrapper to prevent white flashes during transitions */}
-          <div className="bg-black min-h-screen w-full">
-            {stage === 'portfolio' && <LightsaberCursor />}
-            <AnimatePresence>
-              {stage === 'galaxy' && (
-                <motion.div key="galaxy" className="absolute inset-0 z-50">
-                  <Suspense fallback={null}>
-                    <GalaxyIntro onFinish={() => setStage('arcade')} />
-                  </Suspense>
-                </motion.div>
-              )}
-              
-              {(stage === 'arcade' || stage === 'arcade-transition') && (
-                <motion.div key="arcade" className="absolute inset-0 z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-                  <Suspense fallback={null}>
-                    <LandingScene 
-                      onHyperspaceStart={handleHyperspaceStart}
-                      onFinish={() => setStage('portfolio')} 
-                    />
-                  </Suspense>
-                </motion.div>
-              )}
+    <StageContext.Provider value={stage}>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            {/* Black background wrapper to prevent white flashes during transitions */}
+            <div className="bg-black min-h-screen w-full">
+              {stage === 'portfolio' && <LightsaberCursor />}
+              <AnimatePresence>
+                {stage === 'galaxy' && (
+                  <motion.div key="galaxy" className="absolute inset-0 z-50">
+                    <Suspense fallback={null}>
+                      <GalaxyIntro onFinish={() => setStage('arcade')} />
+                    </Suspense>
+                  </motion.div>
+                )}
+                
+                {(stage === 'galaxy' || stage === 'arcade' || stage === 'arcade-transition') && (
+                  <motion.div 
+                    key="arcade" 
+                    className="absolute inset-0"
+                    style={{ zIndex: stage === 'galaxy' ? 10 : 50 }}
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: stage === 'galaxy' ? 0 : 1 }} 
+                    transition={{ duration: 1 }}
+                  >
+                    <Suspense fallback={null}>
+                      <LandingScene 
+                        onHyperspaceStart={handleHyperspaceStart}
+                        onFinish={() => setStage('portfolio')} 
+                      />
+                    </Suspense>
+                  </motion.div>
+                )}
 
-              {/* Render Portfolio only after transition finishes to prevent WebGL crashes */}
-              {stage === 'portfolio' && (
-                <motion.div 
-                  key="portfolio" 
-                  className="absolute inset-0 bg-background min-h-screen"
-                  style={{ zIndex: stage === 'portfolio' ? 10 : 1 }}
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: stage === 'portfolio' ? 1 : 0 }} 
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                >
-                  <Suspense fallback={null}>
-                    <Routes>
-                      <Route path="/" element={<Index />}>
-                        <Route index element={<Hero />} />
-                        <Route path="about" element={<About />} />
-                        <Route path="projects" element={<Projects />} />
-                        <Route path="skills" element={<Skills />} />
-                        <Route path="blog" element={<Blog />} />
-                        <Route path="contact" element={<Contact />} />
-                      </Route>
-                    </Routes>
-                  </Suspense>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+                {/* Render Portfolio HTML in background during transition so it preloads instantly */}
+                {(stage === 'portfolio' || stage === 'arcade-transition') && (
+                  <motion.div 
+                    key="portfolio" 
+                    className="absolute inset-0 bg-background min-h-screen"
+                    style={{ zIndex: stage === 'portfolio' ? 10 : 1 }}
+                    initial={{ opacity: 0 }} 
+                    animate={{ opacity: stage === 'portfolio' ? 1 : 0 }} 
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                  >
+                    <Suspense fallback={null}>
+                      <Routes>
+                        <Route path="/" element={<Index />}>
+                          <Route index element={<Hero />} />
+                          <Route path="about" element={<About />} />
+                          <Route path="projects" element={<Projects />} />
+                          <Route path="skills" element={<Skills />} />
+                          <Route path="blog" element={<Blog />} />
+                          <Route path="contact" element={<Contact />} />
+                        </Route>
+                      </Routes>
+                    </Suspense>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </StageContext.Provider>
   );
 };
 
