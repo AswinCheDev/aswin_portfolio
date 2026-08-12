@@ -1,4 +1,4 @@
-import{j as We,a3 as xx,w as In}from"./index-Doj5qgXu.js";/**
+import{h as We,$ as xx,q as In}from"./index-DStLYdcc.js";/**
  * @license
  * Copyright 2010-2024 Three.js Authors
  * SPDX-License-Identifier: MIT
