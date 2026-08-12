@@ -37,6 +37,18 @@ const App = () => {
     import("@/components/Projects");
     import("@/components/Blog");
     import("@/components/Contact");
+
+    // Preload all 3D assets to prevent async WebGL context crashes during route transitions
+    useGLTFWithKTX2.preload('/assests/Models/x-wing-t-65.glb');
+    useGLTFWithKTX2.preload('/assests/Models/star_wars_tie_fighter.glb');
+    useGLTFWithKTX2.preload('/assests/Models/star_wars_holo_projector.glb');
+    useGLTFWithKTX2.preload('/assests/Models/r2-d2-animated.glb');
+    useGLTFWithKTX2.preload('/assests/Models/30654_-_x-wing_starfighter.glb');
+    useGLTFWithKTX2.preload('/assests/lanyard/Compressed/card.glb');
+    
+    // Preload textures
+    const img1 = new Image(); img1.src = '/assests/lanyard/lanyard.png';
+    const img2 = new Image(); img2.src = '/images/coruscant_bg.png';
   };
 
   // Preload audio and images for smoother transitions
