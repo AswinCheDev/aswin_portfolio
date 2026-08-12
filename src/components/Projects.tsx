@@ -254,7 +254,7 @@ export const Projects = () => {
                 <DialogTrigger asChild>
                   <div className="flex flex-col h-full overflow-hidden relative group p-0 bg-white/[0.02] backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-3xl transition-all duration-300 hover:bg-white/5 cursor-pointer">
                   {/* Project Image */}
-                <div className="relative h-[220px] sm:h-[240px] bg-secondary/30 overflow-hidden border-b border-border/50 shrink-0">
+                <div className="relative h-[165px] sm:h-[180px] bg-secondary/30 overflow-hidden border-b border-border/50 shrink-0">
                   {Array.isArray(project.image) ? (
                     <div className="flex w-full h-full gap-5 p-5 justify-center items-center bg-[#E2DFD3]">
                        {project.image.map((img, i) => (
@@ -262,7 +262,7 @@ export const Projects = () => {
                              key={i} 
                              src={img} 
                              alt={`${project.title} screenshot ${i+1}`} 
-                             className="h-full object-contain rounded-[1.25rem] shadow-[0_10px_40px_rgba(0,0,0,0.4)] border-[3px] border-black/10 transition-transform duration-700 group-hover:scale-105 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:-translate-y-2" 
+                             className="h-full object-contain rounded-[1.25rem] shadow-[0_10px_40px_rgba(0,0,0,0.4)] border-[2px] border-black/10 transition-transform duration-700 group-hover:scale-105 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:-translate-y-2" 
                            />
                        ))}
                     </div>
@@ -280,11 +280,11 @@ export const Projects = () => {
                   {/* Overlay Title inside Image */}
                   <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex justify-between items-end">
                     <div>
-                      <h3 className="text-[22px] font-bold tracking-tight text-white drop-shadow-md">{project.title}</h3>
+                      <h3 className="text-[17px] font-bold tracking-tight text-white drop-shadow-md">{project.title}</h3>
                       <p className="text-sm text-white/80 drop-shadow-sm font-medium mt-1">{project.subtitle}</p>
                     </div>
                     {project.status && (
-                      <span className="px-2.5 py-1 text-[10px] rounded-full font-bold bg-black/60 border border-white/20 text-white/90 flex items-center backdrop-blur-md shadow-lg whitespace-nowrap ml-4">
+                      <span className="px-2.5 py-1 text-[8px] rounded-full font-bold bg-black/60 border border-white/20 text-white/90 flex items-center backdrop-blur-md shadow-lg whitespace-nowrap ml-4">
                         {project.status === 'In Progress' && <span className="inline-block w-1.5 h-1.5 mr-1.5 rounded-full bg-amber-500 animate-pulse"></span>}
                         {project.status}
                       </span>
@@ -319,7 +319,7 @@ export const Projects = () => {
                       {project.tech.map((tech) => (
                         <span
                           key={tech}
-                          className="px-3 py-1.5 glass-tag text-[11px] font-medium text-foreground/70"
+                          className="px-3 py-1.5 glass-tag text-[8px] font-medium text-foreground/70"
                         >
                           {tech}
                         </span>
@@ -343,7 +343,7 @@ export const Projects = () => {
                 </div>
                 </DialogTrigger>
               </motion.div>
-              <DialogContent macOSClose={true} className="sm:max-w-[960px] max-h-[90vh] overflow-y-auto flex flex-col border-none bg-background/70 shadow-2xl">
+              <DialogContent macOSClose={true} className="sm:max-w-[720px] max-h-[90vh] overflow-y-auto flex flex-col border-none bg-background/70 shadow-2xl">
                 <DialogHeader className="flex-shrink-0">
                   <DialogTitle className="text-3xl font-bold mb-2">{project.title}</DialogTitle>
                   <DialogDescription>{project.subtitle}</DialogDescription>

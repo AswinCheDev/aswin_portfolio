@@ -1,12 +1,13 @@
 import { useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { Center, useGLTF } from '@react-three/drei';
+import { Center } from '@react-three/drei';
+import { useGLTFWithKTX2 } from '../../../utils/useGLTFWithKTX2';
 
 export const HyperspaceGLTFXWing = () => {
   const groupRef = useRef<THREE.Group>(null);
   const { camera, mouse } = useThree();
-  const { scene, materials } = useGLTF('/assests/Models/Compressed/x-wing_t-65.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/') as any;
+  const { scene, materials } = useGLTFWithKTX2('/assests/Models/x-wing-t-65.glb') as any;
 
   useEffect(() => {
     // Modify the built-in engine glows to match the classic red/orange/yellow look

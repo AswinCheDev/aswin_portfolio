@@ -121,7 +121,7 @@ export const About = () => {
 
               {/* Experience */}
               <div>
-                <h3 className="text-[26px] font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase">
+                <h3 className="text-[20px] font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase">
                   Experience
                 </h3>
                 <div className="space-y-6">
@@ -167,7 +167,7 @@ export const About = () => {
 
               {/* Education */}
               <div>
-                <h3 className="text-[26px] font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase">
+                <h3 className="text-[20px] font-bold text-slate-900 mb-4 flex items-center gap-2 uppercase">
                   Education
                 </h3>
                 <div className="space-y-6">
@@ -201,7 +201,7 @@ export const About = () => {
 
               {/* Certifications */}
               <div>
-                <h3 className="text-[26px] font-bold text-slate-900 mb-4 uppercase">Certifications</h3>
+                <h3 className="text-[20px] font-bold text-slate-900 mb-4 uppercase">Certifications</h3>
                 <div className="space-y-6">
                   {certifications.map((cert, index) => (
                     <div key={index}>
@@ -219,7 +219,7 @@ export const About = () => {
 
               {/* Interests */}
               <div>
-                <h3 className="text-[26px] font-bold text-slate-900 mb-4 uppercase">Areas of Interest & Hobbies</h3>
+                <h3 className="text-[20px] font-bold text-slate-900 mb-4 uppercase">Areas of Interest & Hobbies</h3>
                 <div className="flex flex-wrap gap-2.5">
                   {interests.map((interest) => (
                     <motion.span

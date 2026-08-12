@@ -1,11 +1,12 @@
 import React, { Suspense, useRef, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, useAnimations } from '@react-three/drei';
+import { useAnimations } from '@react-three/drei';
+import { useGLTFWithKTX2 } from '../utils/useGLTFWithKTX2';
 import * as THREE from 'three';
 
 function R2D2Model({ isFullScore }: { isFullScore?: boolean }) {
   const group = useRef<THREE.Group>(null);
-  const { scene, animations } = useGLTF('/assests/Models/Compressed/r2-d2_animated.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+  const { scene, animations } = useGLTFWithKTX2('/assests/Models/r2-d2-animated.glb');
   const { actions } = useAnimations(animations, group);
   const { viewport } = useThree();
 

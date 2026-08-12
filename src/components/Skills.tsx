@@ -270,7 +270,7 @@ export const Skills = () => {
 
         <div className="flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative pt-16 lg:pt-10 pb-8 px-6 md:px-10 lg:px-16 w-full h-full z-10 pointer-events-none">
           
-          <div className="flex-1 w-full max-w-[580px] flex flex-col justify-center items-start pointer-events-auto">
+          <div className="flex-1 w-full max-w-[435px] flex flex-col justify-center items-start pointer-events-auto">
             
             <div className="mb-8">
               <div className="flex flex-col lg:flex-row items-start lg:items-end gap-4 lg:gap-6 justify-start mb-2">
@@ -287,7 +287,7 @@ export const Skills = () => {
                       </svg>
                     </button>
                   </DialogTrigger>
-                  <DialogContent macOSClose={true} style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E")`, backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)' }} className="sm:max-w-[1000px] max-h-[85vh] overflow-y-auto flex flex-col border border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] p-0">
+                  <DialogContent macOSClose={true} style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E")`, backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)' }} className="sm:max-w-[750px] max-h-[85vh] overflow-y-auto flex flex-col border border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] p-0">
                     <DialogHeader className="flex-shrink-0 p-6 lg:p-8 pb-0 lg:pb-0">
                       <DialogTitle className="text-3xl font-bold text-gray-900 drop-shadow-sm">Technologies I've Worked With</DialogTitle>
                     </DialogHeader>
@@ -304,14 +304,14 @@ export const Skills = () => {
                               return (
                                 <div 
                                   key={item.name} 
-                                  className="flex flex-col items-center gap-2.5 group w-[70px]"
+                                  className="flex flex-col items-center gap-2.5 group w-[53px]"
                                 >
                                   {Icon ? (
                                     <Icon className="w-10 h-10 opacity-90 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300" color={item.color} />
                                   ) : (
                                     <span className="text-gray-400 text-xs h-10 flex items-center">—</span>
                                   )}
-                                  <span className="text-gray-600 text-[11px] font-semibold tracking-wide text-center leading-tight group-hover:text-gray-900 transition-colors">
+                                  <span className="text-gray-600 text-[8px] font-semibold tracking-wide text-center leading-tight group-hover:text-gray-900 transition-colors">
                                     {item.name}
                                   </span>
                                 </div>
@@ -330,7 +330,7 @@ export const Skills = () => {
               </p>
             </div>
 
-            <div className="flex flex-wrap justify-start gap-2 md:gap-4 relative z-20 min-h-[180px] md:min-h-[300px] content-start pt-12">
+            <div className="flex flex-wrap justify-start gap-2 md:gap-4 relative z-20 min-h-[135px] md:min-h-[225px] content-start pt-12">
               {MODULES.map((module, i) => {
                 const isEquipped = equippedIds.includes(module.id);
                 const startRect = animatingBlocks[module.id];
@@ -368,9 +368,9 @@ export const Skills = () => {
           </div>
           
           {/* Right column placeholder to reserve space for the 3D X-Wing, holding the XP card */}
-          <div className="flex flex-col items-center justify-end w-full lg:w-1/2 h-[500px] lg:h-full mt-16 lg:mt-0 relative pointer-events-none pb-0 lg:pb-0">
+          <div className="flex flex-col items-center justify-end w-full lg:w-1/2 h-[375px] lg:h-full mt-16 lg:mt-0 relative pointer-events-none pb-0 lg:pb-0">
             {/* XP Popups Container */}
-            <div className="absolute bottom-[80px] left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-30">
+            <div className="absolute bottom-[60px] left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-30">
               <AnimatePresence>
                 {popups.map(popup => (
                   <motion.div
@@ -392,13 +392,13 @@ export const Skills = () => {
             </div>
 
             {/* Display XP Score over the canvas */}
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl py-2 px-4 md:py-2.5 md:px-6 min-w-[240px] md:min-w-[280px] flex items-center gap-3 md:gap-5 shadow-[0_8px_32px_rgba(255,255,255,0.05)] z-20 transition-all pointer-events-auto">
+            <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl py-2 px-4 md:py-2.5 md:px-6 min-w-[180px] md:min-w-[210px] flex items-center gap-3 md:gap-5 shadow-[0_8px_32px_rgba(255,255,255,0.05)] z-20 transition-all pointer-events-auto">
               <div className="w-12 h-12 rounded-xl shrink-0 overflow-hidden shadow-lg border border-white/10">
                 <img src="/favicons/apple-touch-icon.png" alt="Profile" className="w-full h-full object-cover" />
               </div>
-              <div className="flex-1 min-w-[150px]">
-                <h3 className="font-sans font-bold text-white/90 text-[16px] tracking-wide whitespace-nowrap drop-shadow-md">Aswin Chettri</h3>
-                <p className="font-mono text-[11px] font-bold text-[#ccff00] tracking-[0.2em] uppercase mt-0.5 whitespace-nowrap drop-shadow-md opacity-90">
+              <div className="flex-1 min-w-[113px]">
+                <h3 className="font-sans font-bold text-white/90 text-[12px] tracking-wide whitespace-nowrap drop-shadow-md">Aswin Chettri</h3>
+                <p className="font-mono text-[8px] font-bold text-[#ccff00] tracking-[0.2em] uppercase mt-0.5 whitespace-nowrap drop-shadow-md opacity-90">
                   {equippedModules.length === 0 ? "Select technologies" : `Level: ${equippedModules.length * 10}XP`}
                 </p>
               </div>

@@ -124,6 +124,10 @@
   * {
     @apply border-border;
   }
+  html {
+    font-size: 75%;
+  }
+
   body {
     @apply bg-background text-foreground overflow-x-hidden min-h-screen relative;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;

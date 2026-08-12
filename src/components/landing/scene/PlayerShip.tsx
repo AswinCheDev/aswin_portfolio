@@ -1,7 +1,7 @@
 import { useRef, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useGLTF } from '@react-three/drei';
+import { useGLTFWithKTX2 } from '../../../utils/useGLTFWithKTX2';
 
 interface PlayerShipProps {
   isHyperspace?: boolean;
@@ -53,7 +53,7 @@ export const PlayerShip = ({ isHyperspace = false }: PlayerShipProps = {}) => {
     }
   });
 
-  const { scene } = useGLTF('/assests/Models/Compressed/x-wing_t-65.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+  const { scene } = useGLTFWithKTX2('/assests/Models/x-wing-t-65.glb');
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   return (

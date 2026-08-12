@@ -1,6 +1,6 @@
 import { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { useGLTFWithKTX2 } from "../../utils/useGLTFWithKTX2";
 import * as THREE from "three";
 
 const coneVertexShader = `
@@ -49,7 +49,7 @@ const coneFragmentShader = `
 `;
 
 export const HoloProjector = ({ position = [0, -5, 0] }: { position?: [number, number, number] }) => {
-  const { scene } = useGLTF("/assests/Models/Compressed/star_wars_holo_projector_fixed.glb", 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+  const { scene } = useGLTFWithKTX2("/assests/Models/star_wars_holo_projector.glb");
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
 

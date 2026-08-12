@@ -171,7 +171,7 @@ export function ContactForm() {
                   <FormControl>
                     <Textarea
                       placeholder="Your message"
-                      className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 min-h-[60px] md:min-h-[100px] resize-none !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]"
+                      className="bg-transparent border-0 border-b-2 border-cyan-700/50 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-cyan-400 rounded-none px-1 text-cyan-50 font-mono placeholder:text-cyan-800 min-h-[45px] md:min-h-[75px] resize-none !outline-none !shadow-none [&:-webkit-autofill]:[transition:background-color_5000s_ease-in-out_0s] [&:-webkit-autofill]:[-webkit-text-fill-color:#ecfeff]"
                       {...field}
                     />
                   </FormControl>

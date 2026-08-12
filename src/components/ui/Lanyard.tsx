@@ -1,7 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useGLTFWithKTX2 } from '../../utils/useGLTFWithKTX2';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
@@ -45,7 +46,7 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div className="lanyard-wrapper h-full w-full min-h-[500px]">
+    <div className="lanyard-wrapper h-full w-full min-h-[375px]">
       <Canvas
         flat
         camera={{ position: position, fov: fov }}
@@ -125,7 +126,7 @@ function Band({
     rot = new THREE.Vector3(),
     dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
-  const { nodes, materials } = useGLTF(cardGLB, 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/') as any;
+  const { nodes, materials } = useGLTFWithKTX2(cardGLB) as any;
   const texture = useTexture(lanyardImage || lanyard);
   // useTexture must be called unconditionally; use a blank pixel when an image
   // isn't supplied for a given face, then skip compositing it below.
@@ -164,7 +165,10 @@ function Band({
     const ctx = canvas.getContext('2d');
     if (!ctx) return baseMap;
     // Keep the original baked atlas for the card edges and any untouched face.
-    ctx.drawImage(baseImg, 0, 0, W, H);
+    // If the baseMap is a KTX2 CompressedTexture, it won't be an HTMLImageElement and cannot be drawn to a 2D canvas.
+    if (baseImg instanceof HTMLImageElement || baseImg instanceof HTMLCanvasElement || baseImg instanceof ImageBitmap) {
+      ctx.drawImage(baseImg, 0, 0, W, H);
+    }
 
     const drawFitted = (img: any, rect: any) => {
       if (!img || (typeof img.complete === 'boolean' && !img.complete) || !img.width || !img.height) return;

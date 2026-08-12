@@ -55,14 +55,14 @@ export const Contact = () => {
                 x: { type: "spring", stiffness: 100, delay: index * 0.1 }
               }}
               whileHover={{ x: 5, scale: 1.02 }}
-              className="flex items-center justify-center md:justify-start gap-2 md:gap-3 p-2 md:p-4 bg-cyan-950/[0.35] hover:bg-cyan-950/70 backdrop-blur-[2px] hover:backdrop-blur-md border border-cyan-400/20 hover:border-cyan-400/40 rounded-xl md:rounded-2xl transition-all duration-500 flex-1 md:flex-none md:w-full md:min-w-[200px] group shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)]"
+              className="flex items-center justify-center md:justify-start gap-2 md:gap-3 p-2 md:p-4 bg-cyan-950/[0.35] hover:bg-cyan-950/70 backdrop-blur-[2px] hover:backdrop-blur-md border border-cyan-400/20 hover:border-cyan-400/40 rounded-xl md:rounded-2xl transition-all duration-500 flex-1 md:flex-none md:w-full md:min-w-[150px] group shadow-[0_0_15px_rgba(6,182,212,0.1),inset_0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_30px_rgba(6,182,212,0.2),inset_0_0_30px_rgba(6,182,212,0.15)]"
             >
               <div className="text-cyan-500/50 group-hover:text-cyan-300 transition-colors bg-cyan-900/20 group-hover:bg-cyan-800/40 border border-cyan-500/20 group-hover:border-cyan-400/50 p-2 rounded-lg shrink-0">
                 <info.icon className="w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
               </div>
               <div className="flex flex-col text-left">
-                <span className="text-[8px] md:text-xs text-cyan-300 font-mono uppercase tracking-wider">{info.label}</span>
-                <span className="text-[10px] md:text-sm text-cyan-50 font-medium whitespace-nowrap">{info.value}</span>
+                <span className="text-[6px] md:text-xs text-cyan-300 font-mono uppercase tracking-wider">{info.label}</span>
+                <span className="text-[8px] md:text-sm text-cyan-50 font-medium whitespace-nowrap">{info.value}</span>
               </div>
             </motion.a>
           ))}

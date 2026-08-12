@@ -151,7 +151,7 @@ export const Navbar = () => {
                   }`}
                   style={{ right: 'calc(100% + 8px)' }}
                 >
-                  <div className="text-[10px] font-bold tracking-widest text-white whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  <div className="text-[8px] font-bold tracking-widest text-white whitespace-nowrap drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {item.label}
                   </div>
                 </div>

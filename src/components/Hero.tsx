@@ -44,7 +44,7 @@ export const Hero = () => {
       hoverColor: "hover:text-[#0a66c2]",
     },
     {
-      icon: <XIcon className="w-[18px] h-[18px] md:w-[22px] md:h-[22px]" />,
+      icon: <XIcon className="w-[14px] h-[14px] md:w-[17px] md:h-[17px]" />,
       href: "https://x.com/",
       label: "X (Twitter)",
       hoverColor: "hover:text-black dark:hover:text-white",
@@ -62,7 +62,7 @@ export const Hero = () => {
       hoverColor: "hover:text-[#ff6719]",
     },
     {
-      icon: <DailyDevIcon className="w-4 h-4 md:w-[22px] md:h-[22px]" />,
+      icon: <DailyDevIcon className="w-4 h-4 md:w-[17px] md:h-[17px]" />,
       href: "https://app.daily.dev/aswinchettri",
       label: "Daily.dev",
       hoverColor: "hover:text-[#e05320]",
@@ -117,7 +117,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-[32px] md:text-[76px] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
+            className="text-[24px] md:text-[57px] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
           >
             {name}
           </motion.h1>
@@ -129,7 +129,7 @@ export const Hero = () => {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="mb-4 mt-0"
           >
-            <h2 className="text-[20px] md:text-[34px] font-medium text-primary tracking-widest">
+            <h2 className="text-[15px] md:text-[26px] font-medium text-primary tracking-widest">
               {title}
             </h2>
             <div className="flex items-center justify-center md:justify-start gap-2 mt-0 text-muted-foreground text-base">
@@ -145,7 +145,7 @@ export const Hero = () => {
             transition={{ delay: 1, duration: 0.6 }}
             className="text-xl text-muted-foreground mb-4 md:mb-6"
           >
-            <p className="text-muted-foreground/80 leading-relaxed md:leading-relaxed w-full max-w-full text-justify text-[13px] md:text-[20px]">
+            <p className="text-muted-foreground/80 leading-relaxed md:leading-relaxed w-full max-w-full text-justify text-[10px] md:text-[15px]">
               I'm a Software Developer who recently completed my Master of
               Computer Applications from Sikkim Manipal Institute of Technology,
               based out of the beautiful hills of Gangtok, Sikkim. I'm always
@@ -177,7 +177,7 @@ export const Hero = () => {
                     {social.text && (
                       <span
                         className={
-                          social.textClass || "font-medium text-base md:text-[20px]"
+                          social.textClass || "font-medium text-base md:text-[15px]"
                         }
                       >
                         {social.text}

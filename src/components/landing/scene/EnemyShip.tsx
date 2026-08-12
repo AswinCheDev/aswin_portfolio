@@ -1,7 +1,7 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useGLTF } from '@react-three/drei';
+import { useGLTFWithKTX2 } from '../../../utils/useGLTFWithKTX2';
 
 interface EnemyShipProps {
   id: string;
@@ -35,7 +35,7 @@ export const EnemyShip = ({ id, position, color, isLast }: EnemyShipProps) => {
     }
   });
 
-  const { scene } = useGLTF('/assests/Models/Compressed/star_wars_tie_fighter.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+  const { scene } = useGLTFWithKTX2('/assests/Models/star_wars_tie_fighter.glb');
   const clonedScene = useMemo(() => scene.clone(), [scene]);
 
   return (

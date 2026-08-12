@@ -130,9 +130,10 @@ const ShootController = ({ enemies, setEnemies, setExplosions, onKill, lasers, s
 
 interface LandingSceneProps {
   onFinish: () => void;
+  onHyperspaceStart?: () => void;
 }
 
-export const LandingScene = ({ onFinish }: LandingSceneProps) => {
+export const LandingScene = ({ onFinish, onHyperspaceStart }: LandingSceneProps) => {
   const totalBugs = 25;
   const [bugsRemaining, setBugsRemaining] = useState(totalBugs);
   const [isComplete, setIsComplete] = useState(false);
@@ -192,6 +193,9 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
   // Transitions
   useEffect(() => {
     if (isComplete) {
+      if (onHyperspaceStart) {
+        onHyperspaceStart();
+      }
       setTimeout(() => setTransitionState(1), 500); 
       setTimeout(() => setTransitionState(2), 1500); 
       setTimeout(() => setTransitionState(3), 2500); 
@@ -200,7 +204,7 @@ export const LandingScene = ({ onFinish }: LandingSceneProps) => {
         setTimeout(onFinish, 1000); 
       }, 3500);
     }
-  }, [isComplete, onFinish]);
+  }, [isComplete, onFinish, onHyperspaceStart]);
 
   const progressChars = Math.floor(((totalBugs - bugsRemaining) / totalBugs) * 10);
   const progressStr = '█'.repeat(progressChars) + '□'.repeat(10 - progressChars);

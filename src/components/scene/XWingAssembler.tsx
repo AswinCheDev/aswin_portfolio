@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import { useGLTFWithKTX2 } from '../../utils/useGLTFWithKTX2';
 import * as THREE from 'three';
 import { getChunkMapping } from '../../utils/xwingChunks';
 
@@ -17,7 +17,7 @@ interface XWingAssemblerProps {
 // 21 modules total. We'll group meshes into 21 chunks.
 export function XWingAssembler({ equippedIds, modules, animatingBlocks, onAnimationComplete, onToggleEquip, mouseX, mouseY }: XWingAssemblerProps) {
   const group = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/assests/Models/Compressed/30654_-_x-wing_starfighter.glb', 'https://www.gstatic.com/draco/versioned/decoders/1.5.5/');
+  const { scene } = useGLTFWithKTX2('/assests/Models/30654_-_x-wing_starfighter.glb');
   const { camera, viewport } = useThree();
 
   const isMobile = viewport.width < viewport.height;

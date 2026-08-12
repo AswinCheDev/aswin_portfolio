@@ -5,21 +5,35 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import Index from "./pages/Index";
-import { Hero } from "@/components/Hero";
-import { About } from "@/components/About";
-import { Skills } from "@/components/Skills";
-import { Projects } from "@/components/Projects";
-import { Blog } from "@/components/Blog";
-import { Contact } from "@/components/Contact";
+import { lazy, Suspense } from "react";
 
-import { LandingScene } from "./components/landing/LandingScene";
-import { GalaxyIntro } from "./components/landing/GalaxyIntro";
+const Index = lazy(() => import("./pages/Index"));
+const Hero = lazy(() => import("@/components/Hero").then(m => ({ default: m.Hero })));
+const About = lazy(() => import("@/components/About").then(m => ({ default: m.About })));
+const Skills = lazy(() => import("@/components/Skills").then(m => ({ default: m.Skills })));
+const Projects = lazy(() => import("@/components/Projects").then(m => ({ default: m.Projects })));
+const Blog = lazy(() => import("@/components/Blog").then(m => ({ default: m.Blog })));
+const Contact = lazy(() => import("@/components/Contact").then(m => ({ default: m.Contact })));
+
+const LandingScene = lazy(() => import("./components/landing/LandingScene").then(m => ({ default: m.LandingScene })));
+const GalaxyIntro = lazy(() => import("./components/landing/GalaxyIntro").then(m => ({ default: m.GalaxyIntro })));
 import { motion, AnimatePresence } from "framer-motion";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [stage, setStage] = useState<'galaxy' | 'arcade' | 'portfolio'>('galaxy');
+  const [stage, setStage] = useState<'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('galaxy');
+
+  const handleHyperspaceStart = () => {
+    setStage('arcade-transition');
+    // Preload JS chunks during hyperspace without mounting WebGL contexts
+    import("./pages/Index");
+    import("@/components/Hero");
+    import("@/components/About");
+    import("@/components/Skills");
+    import("@/components/Projects");
+    import("@/components/Blog");
+    import("@/components/Contact");
+  };
 
   // Preload audio and images for smoother transitions
   useEffect(() => {
@@ -35,16 +49,23 @@ const App = () => {
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           {/* Black background wrapper to prevent white flashes during transitions */}
           <div className="bg-black min-h-screen w-full">
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {stage === 'galaxy' && (
-                <motion.div key="galaxy" className="absolute inset-0">
-                  <GalaxyIntro onFinish={() => setStage('arcade')} />
+                <motion.div key="galaxy" className="absolute inset-0 z-50">
+                  <Suspense fallback={null}>
+                    <GalaxyIntro onFinish={() => setStage('arcade')} />
+                  </Suspense>
                 </motion.div>
               )}
               
-              {stage === 'arcade' && (
-                <motion.div key="arcade" className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-                  <LandingScene onFinish={() => setStage('portfolio')} />
+              {(stage === 'arcade' || stage === 'arcade-transition') && (
+                <motion.div key="arcade" className="absolute inset-0 z-50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+                  <Suspense fallback={null}>
+                    <LandingScene 
+                      onHyperspaceStart={handleHyperspaceStart}
+                      onFinish={() => setStage('portfolio')} 
+                    />
+                  </Suspense>
                 </motion.div>
               )}
 
@@ -56,16 +77,18 @@ const App = () => {
                   animate={{ opacity: 1 }} 
                   transition={{ duration: 2, ease: "easeInOut" }}
                 >
-                  <Routes>
-                    <Route path="/" element={<Index />}>
-                      <Route index element={<Hero />} />
-                      <Route path="about" element={<About />} />
-                      <Route path="projects" element={<Projects />} />
-                      <Route path="skills" element={<Skills />} />
-                      <Route path="blog" element={<Blog />} />
-                      <Route path="contact" element={<Contact />} />
-                    </Route>
-                  </Routes>
+                  <Suspense fallback={null}>
+                    <Routes>
+                      <Route path="/" element={<Index />}>
+                        <Route index element={<Hero />} />
+                        <Route path="about" element={<About />} />
+                        <Route path="projects" element={<Projects />} />
+                        <Route path="skills" element={<Skills />} />
+                        <Route path="blog" element={<Blog />} />
+                        <Route path="contact" element={<Contact />} />
+                      </Route>
+                    </Routes>
+                  </Suspense>
                 </motion.div>
               )}
             </AnimatePresence>
