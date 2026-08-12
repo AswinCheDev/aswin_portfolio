@@ -343,7 +343,7 @@ export const Projects = () => {
                 </div>
                 </DialogTrigger>
               </motion.div>
-              <DialogContent macOSClose={true} className="sm:max-w-[720px] max-h-[90vh] overflow-y-auto flex flex-col border-none bg-background/70 shadow-2xl">
+              <DialogContent macOSClose={true} className="sm:max-w-[720px] max-h-[90vh] overflow-y-auto flex flex-col border-none bg-background/70 shadow-2xl rounded-none">
                 <DialogHeader className="flex-shrink-0">
                   <DialogTitle className="text-3xl font-bold mb-2">{project.title}</DialogTitle>
                   <DialogDescription>{project.subtitle}</DialogDescription>
