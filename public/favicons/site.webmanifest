@@ -1,7 +1,7 @@
 {
   "name": "Aswin Chettri Portfolio",
   "short_name": "AswinPortfolio",
-  "description": "Star Wars-themed interactive portfolio — Full-stack developer specializing in React, AI/ML, and system design.",
+  "description": "Star Wars-themed interactive portfolio.\n\nFull-Stack Developer with a passion for building intuitive and scalable web applications, and an avid AI & Machine Learning enthusiast.",
   "icons": [
     {
       "src": "/favicons/android-chrome-192x192.png",
