@@ -19,6 +19,7 @@ const LandingScene = lazy(() => import("./components/landing/LandingScene").then
 const GalaxyIntro = lazy(() => import("./components/landing/GalaxyIntro").then(m => ({ default: m.GalaxyIntro })));
 import { motion, AnimatePresence } from "framer-motion";
 import { useGLTFWithKTX2 } from "./utils/useGLTFWithKTX2";
+import { LightsaberCursor } from "./components/LightsaberCursor";
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -42,6 +43,15 @@ const App = () => {
     audio.load();
   }, []);
 
+  // Hide the default cursor during the cinematic hyperspace jump
+  useEffect(() => {
+    if (stage === 'arcade-transition') {
+      document.body.style.cursor = 'none';
+    } else {
+      document.body.style.cursor = '';
+    }
+  }, [stage]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -50,6 +60,7 @@ const App = () => {
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           {/* Black background wrapper to prevent white flashes during transitions */}
           <div className="bg-black min-h-screen w-full">
+            {stage === 'portfolio' && <LightsaberCursor />}
             <AnimatePresence>
               {stage === 'galaxy' && (
                 <motion.div key="galaxy" className="absolute inset-0 z-50">
@@ -70,8 +81,8 @@ const App = () => {
                 </motion.div>
               )}
 
-              {/* Render Portfolio in background during transition so it preloads instantly */}
-              {(stage === 'portfolio' || stage === 'arcade-transition') && (
+              {/* Render Portfolio only after transition finishes to prevent WebGL crashes */}
+              {stage === 'portfolio' && (
                 <motion.div 
                   key="portfolio" 
                   className="absolute inset-0 bg-background min-h-screen"

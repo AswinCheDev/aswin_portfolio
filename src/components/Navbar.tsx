@@ -63,7 +63,7 @@ export const Navbar = () => {
   const location = useLocation();
 
   const navItems = [
-    { id: "/", label: "HOME", color: "#ffffff" },
+    { id: "/", label: "HOME", color: "#ef4444" },
     { id: "/about", label: "ABOUT", color: "#93c5fd" }, // Soft Blue
     { id: "/projects", label: "PROJECTS", color: "#f97316" }, // Orange
     { id: "/skills", label: "SKILLS", color: "#86efac" }, // Light Green
@@ -91,9 +91,9 @@ export const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const baseRadius = 120; // Base distance of planets from the center
-  const startAngle = 180; // Left
-  const endAngle = 260; // Wide 80-degree sweep for a very round circle
+  const baseRadius = 120; 
+  const startAngle = 180; 
+  const endAngle = 260; 
   const angleStep = (endAngle - startAngle) / (navItems.length - 1);
 
   return (
@@ -108,8 +108,12 @@ export const Navbar = () => {
           
           // Calculate angle and position
           const angle = startAngle + index * angleStep;
-          // Spiral factor gives the exact vertical clearance needed for the labels near the top
-          const currentRadius = baseRadius + index * 10; 
+          
+          // Original spiral for first 4 items, then smooth curve for Blog and Contact
+          let currentRadius = baseRadius + index * 12; 
+          if (index === 0) currentRadius = 95;  // Slide ONLY HOME to the right
+          if (index === 4) currentRadius = 160; // BLOG (160px)
+          if (index === 5) currentRadius = 175; // CONTACT (175px - increased gap by ~10%)
           const radian = (angle * Math.PI) / 180;
           const x = Math.cos(radian) * currentRadius;
           const y = Math.sin(radian) * currentRadius;
