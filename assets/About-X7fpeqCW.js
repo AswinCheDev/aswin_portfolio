@@ -1,4 +1,4 @@
-import{E as g,a0 as e,aj as H,af as N,ak as O}from"./index-CvVa0Gep.js";import{E as U}from"./external-link-B9gHBXvw.js";const V=`
+import{E as g,a0 as e,aj as H,af as N,ak as O}from"./index-JoDnIKpk.js";import{E as U}from"./external-link-Bn8ydRkS.js";const V=`
 attribute vec2 position;
 void main() {
   gl_Position = vec4(position, 0.0, 1.0);
