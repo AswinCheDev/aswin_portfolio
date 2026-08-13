@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/tooltip";
 import Lanyard from "@/components/ui/Lanyard";
 import Galaxy from "@/components/ui/Galaxy";
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 export const Hero = () => {
   const name = "Aswin Chettri";
   const title = "Software Developer";
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const { isMobile } = useWindowSize();
 
   const socialLinks = [
     {
@@ -72,7 +73,7 @@ export const Hero = () => {
   return (
     <section
       id="home"
-      className="h-[100dvh] md:min-h-screen w-full relative flex flex-col md:flex-row items-center justify-end md:justify-center pt-20 md:pt-20 pb-24 md:pb-0 overflow-hidden"
+      className="h-[100dvh] lg:min-h-screen w-full relative flex flex-col lg:flex-row items-center justify-end lg:justify-center pt-20 lg:pt-20 pb-24 lg:pb-0 overflow-hidden"
     >
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/50 uppercase z-20 font-mono pointer-events-none">
         Docking Bay
@@ -109,15 +110,15 @@ export const Hero = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-end gap-4 md:gap-12 relative z-10 pointer-events-none px-6 h-full md:h-auto pb-4 md:pb-0">
+      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-end gap-4 lg:gap-12 relative z-10 pointer-events-none px-6 h-full lg:h-auto pb-4 lg:pb-0">
         {/* Right Side: Text (pointer-events-auto restores clickability for text/buttons) */}
-        <div className="w-full md:w-min flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto mt-auto md:-mt-24 pb-12 md:pb-0">
+        <div className="w-full lg:w-min flex flex-col items-center lg:items-start text-center lg:text-left pointer-events-auto mt-auto lg:-mt-24 pb-12 lg:pb-0">
           {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-[24px] md:text-[57px] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
+            className="text-[clamp(1.5rem,5vw,3.5rem)] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
           >
             {name}
           </motion.h1>
@@ -129,10 +130,10 @@ export const Hero = () => {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="mb-4 mt-0"
           >
-            <h2 className="text-[15px] md:text-[26px] font-medium text-primary tracking-widest">
+            <h2 className="text-[clamp(1rem,2vw,1.625rem)] font-medium text-primary tracking-widest">
               {title}
             </h2>
-            <div className="flex items-center justify-center md:justify-start gap-2 mt-0 text-muted-foreground text-base">
+            <div className="flex items-center justify-center lg:justify-start gap-2 mt-0 text-muted-foreground text-base">
               <MapPin className="w-3.5 h-3.5" strokeWidth={1.5} />
               <span>Gangtok, Sikkim</span>
             </div>
@@ -145,7 +146,7 @@ export const Hero = () => {
             transition={{ delay: 1, duration: 0.6 }}
             className="text-xl text-muted-foreground mb-4 md:mb-6"
           >
-            <p className="text-muted-foreground/80 leading-relaxed md:leading-relaxed w-full max-w-full text-justify text-[10px] md:text-[15px]">
+            <p className="text-[clamp(0.875rem,1.5vw,1.125rem)] text-muted-foreground/80 max-w-[480px] font-light leading-relaxed">
               I'm a Software Developer who recently completed my Master of
               Computer Applications from Sikkim Manipal Institute of Technology,
               based out of the beautiful hills of Gangtok, Sikkim. I'm always
@@ -159,7 +160,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="flex flex-wrap items-center justify-start md:justify-start gap-2 md:gap-4 w-full"
+            className="flex flex-wrap items-center justify-start lg:justify-start gap-2 lg:gap-4 w-full"
           >
             {socialLinks.map((social) => (
               <Tooltip key={social.label}>

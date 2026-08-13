@@ -28,6 +28,7 @@ const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 import { StageContext } from '@/App';
 import { PageTransitionContext } from '@/pages/Index';
 import { useContext } from 'react';
+import { useWindowSize } from '@/hooks/useWindowSize';
 
 export default function Lanyard({
   position = [0, 0, 30],
@@ -41,17 +42,11 @@ export default function Lanyard({
   lanyardWidth = 1,
   lanyardRepeat = [-3, 1]
 }: any) {
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const { isMobile } = useWindowSize();
 
   const stage = useContext(StageContext);
   const isTransitioning = useContext(PageTransitionContext);
   const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <div className="lanyard-wrapper h-full w-full min-h-[375px]">
@@ -124,6 +119,11 @@ function Band({
   lanyardRepeat = [-3, 1]
 }: any) {
   const { width, height } = useThree((state) => state.size);
+  const viewport = useThree((state) => state.viewport);
+  // Calculate dynamic position and scale based on viewport to ensure it never gets cut off on weird aspect ratios
+  const xOffset = isMobile ? 0 : -viewport.width * 0.23;
+  const dynamicScale = isMobile ? 1 : Math.min(1, viewport.width / 4.36);
+
   const band = useRef<any>();
   const fixed = useRef<any>();
   const j1 = useRef<any>();
@@ -158,58 +158,8 @@ function Band({
     }
   }, [texture, frontTex, backTex]);
 
-  // Composite the front/back images into the card's texture atlas (front = left
-  // half, back = right half). Each image is drawn aspect-preserving (no stretch).
-  const cardMap = useMemo(() => {
-    const baseMap = materials.base.map;
-    if (!frontImage && !backImage) return baseMap;
-
-    const baseImg = baseMap.image;
-    if (!baseImg || !baseImg.width || !baseImg.height) return baseMap;
-    
-    const W = baseImg.width;
-    const H = baseImg.height;
-    const canvas = document.createElement('canvas');
-    canvas.width = W;
-    canvas.height = H;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return baseMap;
-    // Keep the original baked atlas for the card edges and any untouched face.
-    // If the baseMap is a KTX2 CompressedTexture, it won't be an HTMLImageElement and cannot be drawn to a 2D canvas.
-    if (baseImg instanceof HTMLImageElement || baseImg instanceof HTMLCanvasElement || baseImg instanceof ImageBitmap) {
-      ctx.drawImage(baseImg, 0, 0, W, H);
-    }
-
-    const drawFitted = (img: any, rect: any) => {
-      if (!img || (typeof img.complete === 'boolean' && !img.complete) || !img.width || !img.height) return;
-      const rx = rect.x * W;
-      const ry = rect.y * H;
-      const rw = rect.w * W;
-      const rh = rect.h * H;
-      const pick = imageFit === 'contain' ? Math.min : Math.max;
-      const scale = pick(rw / img.width, rh / img.height);
-      const dw = img.width * scale;
-      const dh = img.height * scale;
-      const dx = rx + (rw - dw) / 2;
-      const dy = ry + (rh - dh) / 2;
-      ctx.save();
-      ctx.beginPath();
-      ctx.rect(rx, ry, rw, rh);
-      ctx.clip();
-      ctx.drawImage(img, dx, dy, dw, dh);
-      ctx.restore();
-    };
-
-    if (frontImage && frontTex.image) drawFitted(frontTex.image, FRONT_UV_RECT);
-    if (backImage && backTex.image) drawFitted(backTex.image, BACK_UV_RECT);
-
-    const composite = new THREE.CanvasTexture(canvas);
-    composite.colorSpace = THREE.SRGBColorSpace;
-    composite.flipY = baseMap.flipY;
-    composite.anisotropy = 16;
-    composite.needsUpdate = true;
-    return composite;
-  }, [frontImage, backImage, imageFit, frontTex, backTex, materials.base.map]);
+  // The composite cardMap logic was removed because it is unused (we render a plane instead)
+  // and created un-disposed CanvasTextures that could cause WebGL Context Loss on mobile.
   const [curve] = useState(
     () =>
       new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()])
@@ -256,7 +206,7 @@ function Band({
 
   return (
     <>
-      <group position={[isMobile ? 0 : -1.0, 4, 0]}>
+      <group position={[xOffset, 4, 0]} scale={dynamicScale}>
         <RigidBody ref={fixed} {...(segmentProps as any)} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...(segmentProps as any)}>
           <BallCollider args={[0.1]} />
