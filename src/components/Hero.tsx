@@ -72,7 +72,7 @@ export const Hero = () => {
   return (
     <section
       id="home"
-      className="h-[100dvh] md:min-h-screen w-full relative flex flex-col md:flex-row items-center justify-end md:justify-center pt-20 md:pt-20 pb-4 md:pb-0 overflow-hidden"
+      className="h-[100dvh] md:min-h-screen w-full relative flex flex-col md:flex-row items-center justify-end md:justify-center pt-20 md:pt-20 pb-24 md:pb-0 overflow-hidden"
     >
       <div className="absolute top-8 left-8 text-sm font-bold tracking-widest text-white/50 uppercase z-20 font-mono pointer-events-none">
         Docking Bay
@@ -99,7 +99,7 @@ export const Hero = () => {
       <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
         <div className="w-full h-full pointer-events-auto">
           <Lanyard
-            position={[0, isMobile ? 0.5 : -1.2, isMobile ? 16.0 : 7.0]}
+            position={[0, isMobile ? 2.5 : -1.2, isMobile ? 16.0 : 7.0]}
             gravity={[0, -40, 0]}
             frontImage="/assests/ID/id-card.png"
             lanyardImage="/assests/ID/lanyard-strap.png"
@@ -111,7 +111,7 @@ export const Hero = () => {
 
       <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-end gap-4 md:gap-12 relative z-10 pointer-events-none px-6 h-full md:h-auto pb-4 md:pb-0">
         {/* Right Side: Text (pointer-events-auto restores clickability for text/buttons) */}
-        <div className="w-full md:w-min flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto mt-auto md:-mt-24 pb-0">
+        <div className="w-full md:w-min flex flex-col items-center md:items-start text-center md:text-left pointer-events-auto mt-auto md:-mt-24 pb-12 md:pb-0">
           {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
