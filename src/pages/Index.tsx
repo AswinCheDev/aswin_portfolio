@@ -2,7 +2,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { SpaceBackground } from "@/components/ui/SpaceBackground";
 import { PageTransition } from "@/components/PageTransition";
-import { LightsaberCursor } from "@/components/LightsaberCursor";
 import { useState, useEffect, useRef, createContext } from "react";
 
 export const PageTransitionContext = createContext<boolean>(false);
@@ -32,8 +31,10 @@ const Index = () => {
   const [isCanvasSafe, setIsCanvasSafe] = useState(true);
   useEffect(() => {
     if (isTransitioning) {
+      document.body.classList.add('hide-lightsaber');
       setIsCanvasSafe(false);
     } else {
+      document.body.classList.remove('hide-lightsaber');
       const timer = setTimeout(() => setIsCanvasSafe(true), 400);
       return () => clearTimeout(timer);
     }
@@ -45,7 +46,6 @@ const Index = () => {
         <SpaceBackground />
         <Navbar />
         <PageTransition isTransitioning={isTransitioning} />
-        <LightsaberCursor hidden={isTransitioning} />
         <Outlet />
       </div>
     </PageTransitionContext.Provider>

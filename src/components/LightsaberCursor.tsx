@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 
-export const LightsaberCursor = ({ hidden = false }: { hidden?: boolean }) => {
+export const LightsaberCursor = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isPointer, setIsPointer] = useState(false);
@@ -95,13 +95,13 @@ export const LightsaberCursor = ({ hidden = false }: { hidden?: boolean }) => {
 
   const cursorContent = (
     <motion.div
-      className={`pointer-events-none fixed top-0 left-0 z-[9999] ${isLight ? 'mix-blend-normal' : 'mix-blend-screen'}`}
+      className={`pointer-events-none fixed top-0 left-0 z-[9999] lightsaber-cursor-wrapper ${isLight ? 'mix-blend-normal' : 'mix-blend-screen'}`}
       style={{
         x: cursorXSpring,
         y: cursorYSpring,
         translateX: "-50%",
         translateY: "-2px",
-        opacity: isVisible && !hidden ? 1 : 0,
+        opacity: isVisible ? 1 : 0,
       }}
     >
       <div 

@@ -152,6 +152,7 @@ export const Skills = () => {
   
   const stage = useContext(StageContext);
   const isTransitioning = useContext(PageTransitionContext);
+  const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
 
   const triggerXpPop = (text: string, type: 'gain' | 'loss' = 'gain') => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -250,6 +251,7 @@ export const Skills = () => {
       >
         {/* Absolute Full-Screen Canvas behind the content */}
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-auto">
+          {shouldRenderCanvas && (
             <Canvas camera={{ position: [0, isMobile ? 8 : 0, isMobile ? 35 : 15], fov: 45 }}>
               <Suspense fallback={null}>
               <ambientLight intensity={1.5} />
@@ -272,6 +274,7 @@ export const Skills = () => {
               />
               </Suspense>
             </Canvas>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative pt-16 lg:pt-10 pb-8 px-6 md:px-10 lg:px-16 w-full h-full z-10 pointer-events-none">

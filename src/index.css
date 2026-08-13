@@ -339,3 +339,6 @@ h1, h2, h3, h4, h5, h6 {
     @apply absolute top-4 right-6 z-10 w-3 h-3 rounded-full bg-red-500 hover:bg-red-600 transition-colors focus:outline-none focus:ring-0 border border-black/10;
   }
 }
+.hide-lightsaber .lightsaber-cursor-wrapper {
+  display: none !important;
+}

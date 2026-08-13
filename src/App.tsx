@@ -75,6 +75,7 @@ const App = () => {
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             {/* Black background wrapper to prevent white flashes during transitions */}
             <div className="bg-black min-h-screen w-full">
+              {stage === 'portfolio' && <LightsaberCursor />}
               <AnimatePresence>
                 {stage === 'galaxy' && (
                   <motion.div key="galaxy" className="absolute inset-0 z-50">
