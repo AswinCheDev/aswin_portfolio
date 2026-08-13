@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useTheme } from "next-themes";
 
-export const LightsaberCursor = () => {
+export const LightsaberCursor = ({ hidden = false }: { hidden?: boolean }) => {
   const [isClicked, setIsClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isPointer, setIsPointer] = useState(false);
@@ -101,7 +101,7 @@ export const LightsaberCursor = () => {
         y: cursorYSpring,
         translateX: "-50%",
         translateY: "-2px",
-        opacity: isVisible ? 1 : 0,
+        opacity: isVisible && !hidden ? 1 : 0,
       }}
     >
       <div 

@@ -118,7 +118,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-[clamp(1.5rem,5vw,3.5rem)] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
+            className="text-[clamp(24px,5vw,57px)] lg:text-[57px] font-bold uppercase tracking-[0.1em] whitespace-nowrap"
           >
             {name}
           </motion.h1>
@@ -130,7 +130,7 @@ export const Hero = () => {
             transition={{ delay: 0.8, duration: 0.6 }}
             className="mb-4 mt-0"
           >
-            <h2 className="text-[clamp(1rem,2vw,1.625rem)] font-medium text-primary tracking-widest">
+            <h2 className="text-[clamp(15px,3vw,26px)] lg:text-[26px] font-medium text-primary tracking-widest">
               {title}
             </h2>
             <div className="flex items-center justify-center lg:justify-start gap-2 mt-0 text-muted-foreground text-base">
@@ -146,7 +146,7 @@ export const Hero = () => {
             transition={{ delay: 1, duration: 0.6 }}
             className="text-xl text-muted-foreground mb-4 md:mb-6"
           >
-            <p className="text-[clamp(0.875rem,1.5vw,1.125rem)] text-muted-foreground/80 max-w-[480px] font-light leading-relaxed">
+            <p className="text-[clamp(10px,2vw,15px)] lg:text-[15px] text-muted-foreground/80 max-w-[480px] font-light leading-relaxed">
               I'm a Software Developer who recently completed my Master of
               Computer Applications from Sikkim Manipal Institute of Technology,
               based out of the beautiful hills of Gangtok, Sikkim. I'm always

@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { SpaceBackground } from "@/components/ui/SpaceBackground";
 import { PageTransition } from "@/components/PageTransition";
+import { LightsaberCursor } from "@/components/LightsaberCursor";
 import { useState, useEffect, useRef, createContext } from "react";
 
 export const PageTransitionContext = createContext<boolean>(false);
@@ -44,6 +45,7 @@ const Index = () => {
         <SpaceBackground />
         <Navbar />
         <PageTransition isTransitioning={isTransitioning} />
+        <LightsaberCursor hidden={isTransitioning} />
         <Outlet />
       </div>
     </PageTransitionContext.Provider>

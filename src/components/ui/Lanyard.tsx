@@ -46,11 +46,9 @@ export default function Lanyard({
 
   const stage = useContext(StageContext);
   const isTransitioning = useContext(PageTransitionContext);
-  const shouldRenderCanvas = stage === 'portfolio' && !isTransitioning;
 
   return (
     <div className="lanyard-wrapper h-full w-full min-h-[375px]">
-      {shouldRenderCanvas && (
         <Canvas
           flat
           camera={{ position: position, fov: fov }}
@@ -103,7 +101,6 @@ export default function Lanyard({
             />
           </Environment>
         </Canvas>
-      )}
     </div>
   );
 }
