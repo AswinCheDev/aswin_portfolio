@@ -9,6 +9,7 @@ import { Explosion3D } from './scene/Explosion3D';
 import { PlayerShip, playerShipState } from './scene/PlayerShip';
 import { AudioManager } from './managers/AudioManager';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { Text } from '@react-three/drei';
 
 // Controller that handles shooting and hit detection using the live scene graph
 const ShootController = ({ enemies, setEnemies, setExplosions, onKill, lasers, setLasers, totalBugs }: any) => {
@@ -274,6 +275,7 @@ export const LandingScene = ({ onFinish, onHyperspaceStart }: LandingSceneProps)
           <div className="absolute inset-0 z-0">
             <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
               <Suspense fallback={null}>
+              <Text visible={false} text="" />
               <ambientLight intensity={0.6} />
               <directionalLight position={[10, 20, 20]} intensity={2.5} castShadow />
               <pointLight position={[-10, -10, 10]} intensity={1} color="#64FFDA" />
@@ -301,15 +303,17 @@ export const LandingScene = ({ onFinish, onHyperspaceStart }: LandingSceneProps)
                 />
               ))}
               
-              {explosions.map((e) => (
-                <Explosion3D 
-                  key={e.id} 
-                  id={e.id} 
-                  position={e.position as [number, number, number]} 
-                  skillText={e.skillText}
-                  onDespawn={(id) => setExplosions(prev => prev.filter(x => x.id !== id))} 
-                />
-              ))}
+              <Suspense fallback={null}>
+                {explosions.map((e) => (
+                  <Explosion3D 
+                    key={e.id} 
+                    id={e.id} 
+                    position={e.position as [number, number, number]} 
+                    skillText={e.skillText}
+                    onDespawn={(id) => setExplosions(prev => prev.filter(x => x.id !== id))} 
+                  />
+                ))}
+              </Suspense>
               
               <PlayerShip />
               
