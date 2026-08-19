@@ -22,10 +22,10 @@ const GalaxyIntro = lazy(() => import("./components/landing/GalaxyIntro").then(m
 import { motion, AnimatePresence } from "framer-motion";
 import { useGLTFWithKTX2 } from "./utils/useGLTFWithKTX2";
 import { LightsaberCursor } from "./components/LightsaberCursor";
-export const StageContext = createContext<'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('galaxy');
+export const StageContext = createContext<'pre-start' | 'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('pre-start');
 
 const App = () => {
-  const [stage, setStage] = useState<'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('galaxy');
+  const [stage, setStage] = useState<'pre-start' | 'galaxy' | 'arcade' | 'arcade-transition' | 'portfolio'>('pre-start');
 
   const handleHyperspaceStart = () => {
     setStage('arcade-transition');
@@ -77,6 +77,20 @@ const App = () => {
             <div className="bg-black min-h-screen w-full">
               {stage === 'portfolio' && <LightsaberCursor />}
               <AnimatePresence>
+                {stage === 'pre-start' && (
+                  <motion.div 
+                    key="pre-start"
+                    className="fixed inset-0 flex items-center justify-center z-[100] bg-black cursor-pointer"
+                    onClick={() => setStage('galaxy')}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <p className="text-[#00E5FF] text-xl font-medium tracking-widest animate-pulse" style={{ fontFamily: "'Courier New', Courier, monospace" }}>
+                      Click to enter
+                    </p>
+                  </motion.div>
+                )}
+
                 {stage === 'galaxy' && (
                   <motion.div key="galaxy" className="absolute inset-0 z-50">
                     <Suspense fallback={null}>

@@ -18,18 +18,21 @@ export const PageTransition = ({ isTransitioning = false }: PageTransitionProps)
       className={`fixed inset-0 z-50 bg-[#0A192F] ${isTransitioning ? 'pointer-events-auto' : 'pointer-events-none'}`}
     >
       {isTransitioning && (
-        <Canvas 
-          camera={{ position: [0, 0, 10], fov: 75 }} 
-          gl={{ preserveDrawingBuffer: true, powerPreference: "high-performance" }}
-          frameloop="always"
-        >
+        <>
+          <audio src="/assests/sound/hyperjump.mp3" autoPlay />
+          <Canvas 
+            camera={{ position: [0, 0, 10], fov: 75 }} 
+            gl={{ preserveDrawingBuffer: true, powerPreference: "high-performance" }}
+            frameloop="always"
+          >
           <ambientLight intensity={0.6} />
           <directionalLight position={[10, 20, 20]} intensity={2.5} />
           <StarField count={500} isHyperspace={true} />
           <Suspense fallback={null}>
             <HyperspaceGLTFXWing />
           </Suspense>
-        </Canvas>
+          </Canvas>
+        </>
       )}
     </motion.div>
   );

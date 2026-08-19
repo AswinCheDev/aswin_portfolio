@@ -12,6 +12,14 @@ export const GalaxyIntro = ({ onFinish }: GalaxyIntroProps) => {
 
   const text = "A long time ago, in a galaxy far, far away....";
 
+  // Explicitly play audio on mount to handle conditional rendering autoplay issues
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 1;
+      audioRef.current.play().catch(err => console.error("Audio play failed:", err));
+    }
+  }, []);
+
   // Handle skip / early exit
   useEffect(() => {
     const handleSkip = () => {

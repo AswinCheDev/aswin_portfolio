@@ -414,6 +414,7 @@ export const LandingScene = ({ onFinish, onHyperspaceStart }: LandingSceneProps)
                   animate={{ opacity: 1 }}
                   className="absolute inset-0 flex flex-col items-center justify-center z-30"
                 >
+                  <audio src="/assests/sound/hyperjump.mp3" autoPlay />
                   <motion.div 
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
